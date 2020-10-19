@@ -7,6 +7,7 @@ using WebSiteBanHang.Models;
 using CaptchaMvc.HtmlHelpers;
 using CaptchaMvc;
 using System.Web.Security;
+using WebSiteBanHang;
 
 namespace WebSiteBanHang.Controllers
 {
@@ -16,7 +17,7 @@ namespace WebSiteBanHang.Controllers
 
         public ActionResult Index()
         {
-
+            
             // List điện thoại mới nhất
             var lstDTM = db.SanPhams.Where(n => n.MaLoaiSP == 1 && n.Moi == 1 && n.DaXoa == false);
             ViewBag.ListDTM = lstDTM;
@@ -54,6 +55,7 @@ namespace WebSiteBanHang.Controllers
         [HttpGet]
         public ActionResult DangKy()
         {
+            
             ViewBag.CauHoi = new SelectList(LoadCauHoi());
             return View();
         }
@@ -71,6 +73,7 @@ namespace WebSiteBanHang.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    tv.MaLoaiTV = 1;
                     ViewBag.ThongBao = "Thêm thành công";
                     db.ThanhViens.Add(tv);
                     db.SaveChanges();
@@ -97,41 +100,41 @@ namespace WebSiteBanHang.Controllers
 
         //Xây dựng Action đăng nhập
         [HttpPost]
-        public ActionResult DangNhap(FormCollection f)
+        public ActionResult DangNhap( FormCollection f)
         {
             ////Kiểm tra tên đăng nhập và mật khẩu
-            //string sTaiKhoan = f["txtTaiKhoan"].ToString();
-            //string sMatKhau = f["txtMatKhau"].ToString();
+            string sTaiKhoan = f["Email"].ToString();
+            string sMatKhau = f["Password"].ToString();
 
-            //ThanhVien tv = db.ThanhViens.SingleOrDefault(n=>n.TaiKhoan==sTaiKhoan && n.MatKhau==sMatKhau);
-
-            //if (tv != null)
-            //{
-            //    Session["TaiKhoan"] = tv;
-            //    return Content("<script>window.location.reload()</script>");
-            //}
-            //return Content("Tài khoản hoặc mật khẩu không đúng!");
-            string taikhoan = f["txtTaiKhoan"].ToString();
-            string matkhau = f["txtMatKhau"].ToString();
-
-            ThanhVien tv = db.ThanhViens.SingleOrDefault(n=>n.TaiKhoan==taikhoan && n.MatKhau==matkhau);
-            if (tv != null)
-            {
-                //Láy ra List quyền của thành viên tương ứng với loại thành viên
-                var lstQuyen = db.LoaiThanhVien_Quyen.Where(n => n.MaLoaiTV == tv.MaLoaiTV);
-                //Duyệt list quyền
-                string Quyen = "";
-                foreach(var item in lstQuyen)
+           
+           
+                ThanhVien tv = db.ThanhViens.SingleOrDefault(n=>n.TaiKhoan==sTaiKhoan && n.MatKhau==sMatKhau);
+                if(tv!= null)
                 {
-                    Quyen += item.MaQuyen + ",";
-                }
-                // Cắt dấu ","
-                Quyen = Quyen.Substring(0, Quyen.Length - 1);
-                PhanQuyen(tv.TaiKhoan,Quyen);
-                Session["TaiKhoan"] = tv;
+                    var lstQuyen = db.LoaiThanhVien_Quyen.Where(n => n.MaLoaiTV == tv.MaLoaiTV);
+                    //Duyệt list quyền
+                    string Quyen = "";
+                    foreach (var item in lstQuyen)
+                    {
+                        Quyen += item.MaQuyen + ",";
+                    }
+                    // Cắt dấu ","
+                    Quyen = Quyen.Substring(0, Quyen.Length - 1);
+                    PhanQuyen(tv.TaiKhoan, Quyen);
+                    Session["TaiKhoan"] = tv;
                 return Content("<script>window.location.reload()</script>");
             }
-            return Content("Tài khoản hoặc mật khẩu không đúng!");
+                else
+                {
+                 
+                    return Content("Tài khoản hoặc mật khẩu không đúng!");
+                }
+               
+           
+
+            
+
+
 
         }
 

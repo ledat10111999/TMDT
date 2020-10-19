@@ -89,6 +89,7 @@ namespace WebSiteBanHang.Controllers
 
         public ActionResult GioHangPartial()
         {
+           
             //Kiểm tra nếu tổng số lượng = 0 thì trả về View 0
             if (TinhTongSoLuong() == 0)
             {

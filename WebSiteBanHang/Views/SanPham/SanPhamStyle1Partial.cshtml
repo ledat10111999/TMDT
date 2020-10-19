@@ -1,20 +1,61 @@
-﻿@using WebSiteBanHang.Models
-@model IEnumerable<SanPham>
+﻿@model IEnumerable<WebSiteBanHang.Models.SanPham>
+@using System.Text.RegularExpressions;
+@using System.Text;
+@functions{
+    public static string ToUrlSlug(string value)
+    {
+
+        //First to lower case
+        value = value.ToLowerInvariant();
+
+        //Remove all accents
+        var bytes = Encoding.GetEncoding("Cyrillic").GetBytes(value);
+
+        value = Encoding.ASCII.GetString(bytes);
+
+        //Replace spaces
+        value = Regex.Replace(value, @"\s", "-", RegexOptions.Compiled);
+
+        //Remove invalid chars
+        value = Regex.Replace(value, @"[^\w\s\p{Pd}]", "", RegexOptions.Compiled);
+
+        //Trim dashes from end
+        value = value.Trim('-', '_');
+
+        //Replace double occurences of - or \_
+        value = Regex.Replace(value, @"([-_]){2,}", "$1", RegexOptions.Compiled);
+
+        return value;
+    }
 
 
-        @foreach (var item in Model.Take(3))
-        {
-            <div class="col-md-4 grid-top">
-                <a href="@Url.RouteUrl("XemChiTiet",new { @id=item.MaSP,@tensp=item.TenSP})" class="b-link-stripe b-animate-go  thickbox">
-                    <img class="img-responsive" src=@Url.Content("~/Content/HinhAnhSP/" + item.HinhAnh) alt="">
-                    <div class="b-wrapper">
-                        <h3 class="b-animate b-from-left    b-delay03 ">
-                            <span>@Html.Raw(item.CauHinh)</span>
-                        </h3>
-                    </div>
-                </a>
-                <p><a href="single.html">@item.TenSP</a></p>
-            </div>
-        }
-        <div class="clearfix"> </div>
-<!----->
+}
+
+@foreach (var item in Model.Take(4))
+{
+    <div class="col-md-3">
+        <div href="#" class="card card-product-grid">
+            <a href="@Url.RouteUrl("XemChiTiet",new { @id=item.MaSP,@tensp=ToUrlSlug(item.TenSP)})"
+               class="img-wrap"> <img src="@Url.Content("~/Content/HinhAnhSP/" + item.HinhAnh)"> </a>
+            <figcaption class="info-wrap">
+                <a href="@Url.RouteUrl("XemChiTiet",new { @id=item.MaSP,@tensp=item.TenSP})"
+                   class="title">@item.TenSP</a>
+
+                <div class="rating-wrap">
+                    <ul class="rating-stars">
+                        <li style="width:80%" class="stars-active">
+                            <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+                        </li>
+                        <li>
+                            <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+                        </li>
+                    </ul>
+                    <span class="label-rating text-muted"> @item.LuotXem</span>
+                </div>
+                <div class="price mt-1">@item.DonGia.Value.ToString("##,###")</div> <!-- price-wrap.// -->
+            </figcaption>
+        </div>
+    </div> <!-- col.// -->
+
+
+}

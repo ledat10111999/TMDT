@@ -5,28 +5,118 @@
     Layout = "~/Views/Layout/HomeLayout.cshtml";
 }
 
-@{ 
+@{
     IEnumerable<SanPham> lstDTM = (IEnumerable<SanPham>)ViewBag.ListDTM;
     IEnumerable<SanPham> lstLTM = (IEnumerable<SanPham>)ViewBag.ListLTM;
     IEnumerable<SanPham> lstMTBM = (IEnumerable<SanPham>)ViewBag.ListMTBM;
 }
 
-<div class="container">
-<div class="content-top">
-    <h1>Điện thoại mới nhất</h1>
-        <div class="grid-in">
-                @Html.Partial("~/Views/SanPham/SanPhamStyle1Partial.cshtml", lstDTM)
+
+@section intro{
+
+<!-- section-header.// -->
+<!-- ========================= SECTION INTRO ========================= -->
+<section class="section-intro padding-y-sm">
+    <div class="container">
+
+        <div class="intro-banner-wrap">
+            <img src="~/Content/images/Head.jpg" class="img-fluid rounded">
         </div>
-</div>
-    <div class="content-top-bottom">
-        <h2>Máy tính xách tay mới nhất</h2>
-        @Html.Partial("~/Views/SanPham/SanPhamStyle2Partial.cshtml", lstLTM)
-        <div class="clearfix"> </div>
-    </div>
-    <div class="content-top">
-        <h1>Điện thoại mới nhất</h1>
-        <div class="grid-in">
+
+    </div> <!-- container //  -->
+</section>
+<!-- ========================= SECTION INTRO END// ========================= -->
+    }
+<section class="section-content padding-y-sm">
+    <div class="container">
+        <article class="card card-body">
+
+
+            <div class="row">
+                <div class="col-md-4">
+                    <figure class="item-feature">
+                        <span class="text-primary"><i class="fa fa-2x fa-truck"></i></span>
+                        <figcaption class="pt-3">
+                            <h5 class="title">Fast delivery</h5>
+                            <p>
+
+                            </p>
+                        </figcaption>
+                    </figure> <!-- iconbox // -->
+                </div><!-- col // -->
+                <div class="col-md-4">
+                    <figure class="item-feature">
+                        <span class="text-primary"><i class="fa fa-2x fa-landmark"></i></span>
+                        <figcaption class="pt-3">
+                            <h5 class="title">Creative Strategy</h5>
+                            <p>
+
+                            </p>
+                        </figcaption>
+                    </figure> <!-- iconbox // -->
+                </div><!-- col // -->
+                <div class="col-md-4">
+                    <figure class="item-feature">
+                        <span class="text-primary"><i class="fa fa-2x fa-lock"></i></span>
+                        <figcaption class="pt-3">
+                            <h5 class="title">High secured </h5>
+                            <p>
+
+                            </p>
+                        </figcaption>
+                    </figure> <!-- iconbox // -->
+                </div> <!-- col // -->
+            </div>
+        </article>
+
+    </div> <!-- container .//  -->
+</section>
+<!-- ========================= SECTION FEATURE END// ========================= -->
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="section-content">
+    <div class="container">
+
+        <header class="section-heading">
+            <h3 class="section-title">Điện thoại mới nhất</h3>
+        </header><!-- sect-heading -->
+
+
+        <div class="row">
+            @Html.Partial("~/Views/SanPham/SanPhamStyle1Partial.cshtml", lstDTM)
+
+        </div> <!-- row.// -->
+
+    </div> <!-- container .//  -->
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+<section class="section-content">
+    <div class="container">
+
+        <header class="section-heading">
+            <h3 class="section-title">Máy tính bảng mới nhất</h3>
+        </header><!-- sect-heading -->
+
+        <div class="row">
+            @Html.Partial("~/Views/SanPham/SanPhamStyle1Partial.cshtml", lstLTM)
+
+        </div> <!-- row.// -->
+
+    </div> <!-- container .//  -->
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+
+<section class="section-content">
+    <div class="container">
+
+        <header class="section-heading">
+            <h3 class="section-title">Laptop mới nhất</h3>
+        </header><!-- sect-heading -->
+
+        <div class="row">
             @Html.Partial("~/Views/SanPham/SanPhamStyle1Partial.cshtml", lstMTBM)
-        </div>
-    </div>
-</div>
+
+        </div> <!-- row.// -->
+
+    </div> <!-- container .//  -->
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->

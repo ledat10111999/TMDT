@@ -1,44 +1,133 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+﻿<header class="section-header">
 
-</head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-dark navbar-expand p-0 bg-primary">
         <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>
-                @Html.Partial("_LoginPartial")
-            </div>
-        </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
+            <ul class="navbar-nav d-none d-md-flex mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">Delivery</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">Payment</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#"
+                       class="nav-link"> Call: +99812345678 </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#"
+                       class="nav-link dropdown-toggle" data-toggle="dropdown"> English </a>
+                    <ul class="dropdown-menu dropdown-menu-right" style="max-width: 100px;">
+                        <li>
+                            <a class="dropdown-item"
+                               href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">Arabic</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item"
+                               href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">
+                                Russian
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul> <!-- list-inline //  -->
+        </div> <!-- navbar-collapse .// -->
+        <!-- container //  -->
+    </nav> <!-- header-top-light.// -->
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
-</body>
-</html>
+    <section class="header-main border-bottom">
+        @Html.Partial("~/Views/Layout/HeaderTopPartial.cshtml")
+    </section> <!-- header-main .// -->
+</header> <!-- section-header.// -->
+
+
+<nav class="navbar navbar-main navbar-expand-lg navbar-light border-bottom">
+    <div class="container">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main_nav"
+                aria-controls="main_nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon" deluminate_imagetype="unknown"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="main_nav">
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link pl-0" data-toggle="dropdown"
+                       href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">
+                        <strong>
+                            <i class="fa fa-bars"></i> &nbsp; All category
+                        </strong>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item"
+                           href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">
+                            Foods
+                            and Drink
+                        </a>
+                        <a class="dropdown-item"
+                           href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">
+                            Home
+                            interior
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item"
+                           href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">
+                            Category
+                            1
+                        </a>
+                        <a class="dropdown-item"
+                           href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">
+                            Category
+                            2
+                        </a>
+                        <a class="dropdown-item"
+                           href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">
+                            Category
+                            3
+                        </a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">Fashion</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">Supermarket</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">Electronics</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">
+                        Baby
+                        &amp; Toys
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">
+                        Fitness
+                        sport
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">Clothing</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">Furnitures</a>
+                </li>
+            </ul>
+        </div> <!-- collapse .// -->
+    </div> <!-- container .// -->
+</nav>

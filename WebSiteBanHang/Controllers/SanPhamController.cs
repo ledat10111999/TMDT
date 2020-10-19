@@ -27,6 +27,7 @@ namespace WebSiteBanHang.Controllers
         //Xây dựng trang xem chi tiết
         public ActionResult XemChiTiet(int? id, string tensp)
         {
+            
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -37,6 +38,8 @@ namespace WebSiteBanHang.Controllers
             {
                 return HttpNotFound();
             }
+            sp.LuotXem += 1;
+            db.SaveChanges();
             return View(sp);
         }
 
