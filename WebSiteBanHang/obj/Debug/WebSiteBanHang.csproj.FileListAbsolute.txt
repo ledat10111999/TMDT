@@ -72,7 +72,6 @@ C:\Users\Admin\Documents\GitHub\WebSiteBanHang\WebSiteBanHang\bin\Microsoft.Owin
 C:\Users\Admin\Documents\GitHub\WebSiteBanHang\WebSiteBanHang\bin\Microsoft.Owin.Security.Google.xml
 C:\Users\Admin\Documents\GitHub\WebSiteBanHang\WebSiteBanHang\bin\Microsoft.Owin.Security.Twitter.xml
 C:\Users\Admin\Documents\GitHub\WebSiteBanHang\WebSiteBanHang\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
-C:\Users\Admin\Documents\GitHub\WebSiteBanHang\WebSiteBanHang\obj\Debug\WebSiteBanHang.csprojAssemblyReference.cache
 C:\Users\Admin\Documents\GitHub\WebSiteBanHang\WebSiteBanHang\obj\Debug\WebSiteBanHang.csproj.CoreCompileInputs.cache
 C:\Users\Admin\Documents\GitHub\WebSiteBanHang\WebSiteBanHang\obj\Debug\WebSiteBanHang.csproj.CopyComplete
 C:\Users\Admin\Documents\GitHub\WebSiteBanHang\WebSiteBanHang\obj\Debug\WebSiteBanHang.dll
@@ -91,3 +90,4 @@ C:\Users\Admin\Documents\GitHub\WebSiteBanHang\WebSiteBanHang\bin\roslyn\VBCSCom
 C:\Users\Admin\Documents\GitHub\WebSiteBanHang\WebSiteBanHang\bin\roslyn\VBCSCompiler.exe.config
 C:\Users\Admin\Documents\GitHub\WebSiteBanHang\WebSiteBanHang\bin\PayPal.dll
 C:\Users\Admin\Documents\GitHub\WebSiteBanHang\WebSiteBanHang\bin\PayPal.xml
+C:\Users\Admin\Documents\GitHub\WebSiteBanHang\WebSiteBanHang\obj\Debug\WebSiteBanHang.csprojAssemblyReference.cache

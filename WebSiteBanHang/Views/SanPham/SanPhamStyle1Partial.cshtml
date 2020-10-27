@@ -33,10 +33,10 @@
 
 @foreach (var item in Model.Take(4))
 {
-    <div class="col-md-3">
-        <div href="#" class="card card-product-grid">
+    <div class="col-md-3 col-3 card w-75 card-product">
+        @*<div href="#" class="card card-product-grid">*@
             <a href="@Url.RouteUrl("XemChiTiet",new { @id=item.MaSP,@tensp=ToUrlSlug(item.TenSP)})"
-               class="img-wrap"> <img src="@Url.Content("~/Content/HinhAnhSP/" + item.HinhAnh)"> </a>
+               class="img-wrap "> <img class="w-100 " src="@Url.Content("~/Content/HinhAnhSP/" + item.HinhAnh)"> </a>
             <figcaption class="info-wrap">
                 <a href="@Url.RouteUrl("XemChiTiet",new { @id=item.MaSP,@tensp=item.TenSP})"
                    class="title">@item.TenSP</a>
@@ -54,7 +54,7 @@
                 </div>
                 <div class="price mt-1">@item.DonGia.Value.ToString("##,###")</div> <!-- price-wrap.// -->
             </figcaption>
-        </div>
+        @*</div>*@
     </div> <!-- col.// -->
 
 

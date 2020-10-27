@@ -66,40 +66,45 @@
             </div> <!-- widgets-wrap.// -->
         </div> <!-- col.// -->
     </div> <!-- row.// -->
-    <div id="id01" class="modal">
+    <div class="row">
+        <div class="col-md-12 modal" id="id01">
+            @using (Ajax.BeginForm("DangNhap", "Home", null, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "ThongBao", HttpMethod = "POST" }, new { @class = "modal-content animate" }))
+            {
 
-        @using (Ajax.BeginForm("DangNhap", "Home", null, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "ThongBao", HttpMethod = "POST" }, new { @class = "modal-content animate" }))
-        {
+                <div class="imgcontainer">
+                    <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+                    <img src="~/Content/images/iconfinder_user-alt_285645.png" style=" z-index:999" alt="Avatar" class="avatar">
+                </div>
 
-            <div class="imgcontainer">
-                <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-                <img src="~/Content/images/iconfinder_user-alt_285645.png" style="width:200px; height:300px; z-index:999" alt="Avatar" class="avatar">
-            </div>
+                <div class="container">
+                    <p style="font-weight:bold;color:red;text-align:left" class="text-danger" id="ThongBao"></p>
 
-            <div class="container">
-                <p style="font-weight:bold;color:red;text-align:left" class="text-danger" id="ThongBao"></p>
+                    <label for="uname"><b>Username</b></label>
+                    <input type="text" name="Email" placeholder="Enter Username" required>
+                    @*@Html.TextBox("Email", null, new { placeholder = "Enter Username", required = true })*@
+                    <label for="psw"><b>Password</b></label>
+                    <input class="password MatKhau" type="password" placeholder="Enter Password" name="Password" required>
+                    @*@Html.TextBox("Password", null, new { placeholder = "Enter Password", required = true, @type = "password" })*@
+                    <button type="submit">Login</button>
+                    <label>
 
-                <label for="uname"><b>Username</b></label>
-                <input type="text" name="Email" placeholder="Enter Username" required>
-                @*@Html.TextBox("Email", null, new { placeholder = "Enter Username", required = true })*@
-                <label for="psw"><b>Password</b></label>
-                <input class="password MatKhau" type="password" placeholder="Enter Password" name="Password" required>
-                @*@Html.TextBox("Password", null, new { placeholder = "Enter Password", required = true, @type = "password" })*@
-                <button type="submit">Login</button>
-                <label>
+                        <input type="checkbox" checked="checked" name="remember"> Remember me
+                    </label>
+                </div>
 
-                    <input type="checkbox" checked="checked" name="remember"> Remember me
-                </label>
-            </div>
-
-            <div class="container" style="background-color:#f1f1f1">
-                <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-                <span class="psw">Forgot <a href="#">password?</a></span>
-            </div>
-        }
-
-
+                <div class="container" style="background-color:#f1f1f1">
+                    <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+                    <span class="psw">Forgot <a href="#">password?</a></span>
+                </div>
+            }
+        </div>
     </div>
+    
+
+      
+
+
+   
     <script>
         // Get the modal
         var modal = document.getElementById('id01');

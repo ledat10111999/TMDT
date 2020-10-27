@@ -2376,3 +2376,8 @@ a.item_add p.number {
   min-height: 81px;
 }
 }
+
+.card-product:hover {
+    box-shadow: 0 4px 15px rgba(153, 153, 153, 0.3);
+    transition: 0.3s;
+}
