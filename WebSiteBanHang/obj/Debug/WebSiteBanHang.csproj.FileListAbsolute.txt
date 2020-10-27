@@ -89,3 +89,5 @@ C:\Users\Admin\Documents\GitHub\WebSiteBanHang\WebSiteBanHang\bin\roslyn\System.
 C:\Users\Admin\Documents\GitHub\WebSiteBanHang\WebSiteBanHang\bin\roslyn\vbc.exe
 C:\Users\Admin\Documents\GitHub\WebSiteBanHang\WebSiteBanHang\bin\roslyn\VBCSCompiler.exe
 C:\Users\Admin\Documents\GitHub\WebSiteBanHang\WebSiteBanHang\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\Admin\Documents\GitHub\WebSiteBanHang\WebSiteBanHang\bin\PayPal.dll
+C:\Users\Admin\Documents\GitHub\WebSiteBanHang\WebSiteBanHang\bin\PayPal.xml

@@ -5,6 +5,19 @@
     ViewBag.Title = "KQTimKiem";
     Layout = "~/Views/Layout/HomeLayout.cshtml";
 }
+    <style>
+        .pagination > li > a, .pagination > li > span {
+            position: relative;
+            float: left;
+            padding: 6px 12px;
+            margin-left: -1px;
+            line-height: 1.42857143;
+            color: #337ab7;
+            text-decoration: none;
+            background-color: #fff;
+            border: 1px solid #ddd;
+        }
+    </style>
 @*Tạo form tìm kiếm để sử dụng ajax*@
     <div class="row">
         @using (Ajax.BeginForm("KQTimKiemPartial", "TimKiem", new AjaxOptions { UpdateTargetId = "KQTimKiemUpdateTarget", InsertionMode = InsertionMode.Replace } , new {@class = "w-100" }))
@@ -26,19 +39,19 @@
     </div>
     
         @*Tạo div bao sử dụng UpdateTargetId*@
-        <div id="KQTimKiemUpdateTarget" class="w-100"> 
-            <div class="row">
+        
+            <div class="row" id="KQTimKiemUpdateTarget">
                 @foreach (var item in Model.OrderBy(n => n.DonGia))
                 {
-                    <div class="col-md-4 bottom-cd simpleCart_shelfItem">
-                        <div class="product-at " style="width:200px;height:150px">
+                    <div class="col-md-4 ">
+                       
                             <a href="@Url.RouteUrl("XemChiTiet",new { @id=item.MaSP,@tensp=item.TenSP})">
-                                <img class="img-responsive" src="@Url.Content("~/Content/HinhAnhSP/" + item.HinhAnh)" alt="">
+                                <img class="rounded mx-auto d-block" src="@Url.Content("~/Content/HinhAnhSP/" + item.HinhAnh)" alt="">
                                 @*<div class="pro-grid">
                                     <span class="buy-in">Mua hàng</span>
                                 </div>*@
                             </a>
-                        </div>
+                      
                         <p class="tun">@item.TenSP</p>
                         @*Thẻ a nút thêm sản phẩm --- chèn Action vào*@
                         <a href="@Url.Action("ThemGioHang","GioHang",new { @MaSP = item.MaSP, @strURL = Request.Url.ToString()})" class="item_add"><p class="number item_price"><i> </i>@item.DonGia.Value.ToString("#,##") VNĐ</p></a>
@@ -53,4 +66,4 @@
                     @Html.PagedListPager(Model, page => Url.Action("KQTimKiem", new { page = page, @sTuKhoa = ViewBag.TuKhoa }))
                 </div>
             </div>
-    </div>
+

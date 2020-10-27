@@ -19,14 +19,14 @@
             }
             iDem++;
             <div class="@Url.Content("col-md-4 bottom-cd simpleCart_shelfItem Trang"+iTrang.ToString())">
-                <div class="product-at " style="width:200px;height:150px">
+               
                     <a href="@Url.RouteUrl("XemChiTiet",new { @id=item.MaSP,@tensp=item.TenSP})">
-                        <img class="img-responsive" src="@Url.Content("~/Content/HinhAnhSP/" + item.HinhAnh)" alt="">
+                        <img class="rounded mx-auto d-block" src="@Url.Content("~/Content/HinhAnhSP/" + item.HinhAnh)" alt="">
                         @*<div class="pro-grid">
                             <span class="buy-in">Đặt mua</span>
                         </div>*@
                     </a>
-                </div>
+              
                 <p class="tun">@item.TenSP</p>
                 @*Thẻ a nút thêm sản phẩm --- chèn Action vào*@
                 @*<a href="@Url.Action("ThemGioHang","GioHang",new { @MaSP = item.MaSP, @strURL = Request.Url.ToString()})" class="item_add"><p class="number item_price"><i> </i>@item.DonGia.Value.ToString("#,##") VNĐ</p></a>

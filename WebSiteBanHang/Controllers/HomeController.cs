@@ -8,15 +8,19 @@ using CaptchaMvc.HtmlHelpers;
 using CaptchaMvc;
 using System.Web.Security;
 using WebSiteBanHang;
+using Microsoft.Ajax.Utilities;
+
 
 namespace WebSiteBanHang.Controllers
 {
     public class HomeController : Controller
     {
+        
         QuanLyBanHangEntities db = new QuanLyBanHangEntities();
 
         public ActionResult Index()
         {
+            
             
             // List điện thoại mới nhất
             var lstDTM = db.SanPhams.Where(n => n.MaLoaiSP == 1 && n.Moi == 1 && n.DaXoa == false);
