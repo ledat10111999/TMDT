@@ -20,6 +20,7 @@ namespace WebSiteBanHang.Models
             this.BinhLuans = new HashSet<BinhLuan>();
             this.ChiTietDonDatHangs = new HashSet<ChiTietDonDatHang>();
             this.ChiTietPhieuNhaps = new HashSet<ChiTietPhieuNhap>();
+            this.StarRatings = new HashSet<StarRating>();
         }
     
         public int MaSP { get; set; }
@@ -53,5 +54,7 @@ namespace WebSiteBanHang.Models
         public virtual LoaiSanPham LoaiSanPham { get; set; }
         public virtual NhaCungCap NhaCungCap { get; set; }
         public virtual NhaSanXuat NhaSanXuat { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<StarRating> StarRatings { get; set; }
     }
 }

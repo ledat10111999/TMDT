@@ -1,5 +1,7 @@
 ﻿@using WebSiteBanHang.Models;
 @model SanPham
+@using WebSiteBanHang.helper;
+
 @{
     ViewBag.Title = "XemChiTiet";
     Layout = "~/Views/Layout/HomeLayout.cshtml";
@@ -84,7 +86,7 @@
                 </ul>
                 <div class="review" style="margin-top:-15px">
                     <p class="font-weight-bold"> Lượt truy cập :@Model.LuotXem</p>
-        
+
 
                 </div>
                 <div class="clearfix"> </div>
@@ -110,7 +112,7 @@
     <div class="col-md-12">
         @Html.Raw(Model.MoTa)
     </div>
-  
+
 </div>
 <div class="row">
     <div id="fb-root"></div>

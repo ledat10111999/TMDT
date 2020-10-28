@@ -35,6 +35,9 @@
         <AssociationConnector Association="QuanLyBanHangModel.FK_PhieuNhap_ToTable" ManuallyRouted="false" />
         <AssociationConnector Association="QuanLyBanHangModel.FK_SanPham_NhaCungCap" ManuallyRouted="false" />
         <AssociationConnector Association="QuanLyBanHangModel.FK_SanPham_NhaSanXuat" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="QuanLyBanHangModel.StarRating" Width="1.5" PointX="6" PointY="0.75" />
+        <AssociationConnector Association="QuanLyBanHangModel.FK_StarRatings_SanPham" />
+        <AssociationConnector Association="QuanLyBanHangModel.FK_StarRatings_ThanhVien" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
