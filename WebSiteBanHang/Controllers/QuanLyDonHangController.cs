@@ -61,7 +61,7 @@ namespace WebSiteBanHang.Controllers
             // Lấy ds chi tiết đơn hàng để hiển thị cho người dùng thấy
             var lstChiTietDH = db.ChiTietDonDatHangs.Where(n => n.MaDDH == ddh.MaDDH);
             ViewBag.ListChiTietDH = lstChiTietDH;
-            GuiEmail("Xác nhận đơn hàng", "ducnghia1205@gmail.com", "kiembtcmp@gmail.com", "zewang.help", "Đơn hàng của bạn đã được đặt thành công");
+            GuiEmail("Xác nhận đơn hàng", "ledat10111999@gmail.com", "superkutex0@gmail.com", "anhdatvip0x", "Đơn hàng của bạn đã được đặt thành công");
             return View(ddhUpdate);
         }
 

@@ -143,8 +143,6 @@
     <Property Name="HinhAnh3" Type="nvarchar(max)" />
     <Property Name="HinhAnh4" Type="nvarchar(max)" />
   </EntityType>
-  <!--Errors Found During Generation:
-warning 6002: The table/view 'QuanLyBanHang.dbo.StarRatings' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="StarRatings">
     <Key>
       <PropertyRef Name="id" />
@@ -152,7 +150,7 @@ warning 6002: The table/view 'QuanLyBanHang.dbo.StarRatings' does not have a pri
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="rate" Type="int" />
     <Property Name="idSanPham" Type="int" />
-    <Property Name="idThanhVien" Type="int" />
+    <Property Name="ipAddress" Type="varchar(max)" />
   </EntityType>
   <EntityType Name="sysdiagrams">
     <Key>
@@ -177,6 +175,7 @@ warning 6002: The table/view 'QuanLyBanHang.dbo.StarRatings' does not have a pri
     <Property Name="SoDienThoai" Type="varchar" MaxLength="12" />
     <Property Name="CauHoi" Type="nvarchar(max)" />
     <Property Name="CauTraLoi" Type="nvarchar(max)" />
+    <Property Name="EmailConfirmed" Type="bit" />
     <Property Name="MaLoaiTV" Type="int" />
   </EntityType>
   <Association Name="FK_BinhLuan_SanPham">
@@ -365,18 +364,6 @@ warning 6002: The table/view 'QuanLyBanHang.dbo.StarRatings' does not have a pri
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_StarRatings_ThanhVien">
-    <End Role="ThanhVien" Type="Self.ThanhVien" Multiplicity="0..1" />
-    <End Role="StarRatings" Type="Self.StarRatings" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ThanhVien">
-        <PropertyRef Name="MaThanhVien" />
-      </Principal>
-      <Dependent Role="StarRatings">
-        <PropertyRef Name="idThanhVien" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_ThanhVien_ToTable">
     <End Role="LoaiThanhVien" Type="Self.LoaiThanhVien" Multiplicity="0..1">
       <OnDelete Action="Cascade" />
@@ -436,16 +423,9 @@ warning 6002: The table/view 'QuanLyBanHang.dbo.StarRatings' does not have a pri
     <EntitySet Name="PhieuNhap" EntityType="Self.PhieuNhap" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Quyen" EntityType="Self.Quyen" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SanPham" EntityType="Self.SanPham" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StarRatings" EntityType="Self.StarRatings" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ThanhVien" EntityType="Self.ThanhVien" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="StarRatings" EntityType="Self.StarRatings" store:Type="Tables" store:Schema="dbo">
-      <DefiningQuery>SELECT 
-    [StarRatings].[id] AS [id], 
-    [StarRatings].[rate] AS [rate], 
-    [StarRatings].[idSanPham] AS [idSanPham], 
-    [StarRatings].[idThanhVien] AS [idThanhVien]
-    FROM [dbo].[StarRatings] AS [StarRatings]</DefiningQuery>
-    </EntitySet>
     <AssociationSet Name="FK_BinhLuan_SanPham" Association="Self.FK_BinhLuan_SanPham">
       <End Role="SanPham" EntitySet="SanPham" />
       <End Role="BinhLuan" EntitySet="BinhLuan" />
@@ -504,10 +484,6 @@ warning 6002: The table/view 'QuanLyBanHang.dbo.StarRatings' does not have a pri
     </AssociationSet>
     <AssociationSet Name="FK_StarRatings_SanPham" Association="Self.FK_StarRatings_SanPham">
       <End Role="SanPham" EntitySet="SanPham" />
-      <End Role="StarRatings" EntitySet="StarRatings" />
-    </AssociationSet>
-    <AssociationSet Name="FK_StarRatings_ThanhVien" Association="Self.FK_StarRatings_ThanhVien">
-      <End Role="ThanhVien" EntitySet="ThanhVien" />
       <End Role="StarRatings" EntitySet="StarRatings" />
     </AssociationSet>
     <AssociationSet Name="FK_ThanhVien_ToTable" Association="Self.FK_ThanhVien_ToTable">

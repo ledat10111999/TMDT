@@ -76,5 +76,29 @@ namespace WebSiteBanHang.Controllers
             // trả về dạng list đã sắp xếp
             return View(lstSP.OrderBy(n => n.MaSP).ToPagedList(PageNumber, PageSize));
         }
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult PostRating(int rattinng, int id)
+        {
+            //save data into the database
+
+          
+            string ip = Request.ServerVariables["REMOTE_ADDR"];
+            StarRating rt = new StarRating()
+            {
+                idSanPham = id,
+                rate = rattinng,
+                ipAddress = ip,
+
+            };
+          
+
+            //save into the database 
+            db.StarRatings.Add(rt);
+            db.SaveChanges();
+
+
+
+            return Json("You rated this " + rattinng.ToString() + " star(s)");
+        }
     }
 }

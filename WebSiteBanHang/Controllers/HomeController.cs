@@ -9,7 +9,8 @@ using CaptchaMvc;
 using System.Web.Security;
 using WebSiteBanHang;
 using Microsoft.Ajax.Utilities;
-
+using System.Threading.Tasks;
+using System.Net.Mail;
 
 namespace WebSiteBanHang.Controllers
 {
@@ -68,19 +69,88 @@ namespace WebSiteBanHang.Controllers
         {
             return View();
         }
+        public ActionResult ConfirmEmail(int Token, string Email)
+        {
+            var user = db.ThanhViens.FirstOrDefault(c => c.MaThanhVien == Token);
+            if (user != null)
+            {
+                if (user.Email == Email)
+                {
+                    var lstQuyen = db.LoaiThanhVien_Quyen.Where(n => n.MaLoaiTV == user.MaLoaiTV);
+                    string Quyen = "";
+                    foreach (var item in lstQuyen)
+                    {
+                        Quyen += item.MaQuyen + ",";
+                    }
+                    // Cắt dấu ","
+                    Quyen = Quyen.Substring(0, Quyen.Length - 1);
+                    PhanQuyen(user.TaiKhoan, Quyen);
+                    Session["TaiKhoan"] = user;
+                    user.EmailConfirmed = true;
+                    db.SaveChanges();
+                    //await SignInAsync(user, isPersistent: false);
+                    return RedirectToAction("Index", "Home", new { ConfirmedEmail = user.Email });
+                }
+                else
+                {
+                    return RedirectToAction("Confirm", "Home", new { Email = user.Email });
+                }
+            }
+            else
+            {
+                return RedirectToAction("Confirm", "Home", new { Email = "" });
+            }
+        }
+
+
+
+
+        public ActionResult Confirm(string Email)
+        {
+            ViewBag.Email = Email;
+            return View();
+        }
+
+
+
         [HttpPost]
         public ActionResult DangKy(ThanhVien tv, FormCollection f)
         {
+            tv.EmailConfirmed = false;
             ViewBag.CauHoi = new SelectList(LoadCauHoi());
             //Kiểm tra Captcha hợp lệ
             if (this.IsCaptchaValid("Captcha is not valid"))
             {
                 if (ModelState.IsValid)
                 {
-                    tv.MaLoaiTV = 1;
-                    ViewBag.ThongBao = "Thêm thành công";
-                    db.ThanhViens.Add(tv);
-                    db.SaveChanges();
+                    var us = db.ThanhViens.FirstOrDefault(c => c.TaiKhoan == tv.TaiKhoan);
+                    if (us == null)
+                    {
+                        tv.MaLoaiTV = 1;
+                        ViewBag.ThongBao = "Thêm thành công";
+                        db.ThanhViens.Add(tv);
+                        db.SaveChanges();
+                        
+                        MailMessage mail = new MailMessage();
+                        mail.To.Add(tv.Email); // Địa chỉ nhận
+                        mail.From = new MailAddress(tv.Email); // Địa chửi gửi
+                        mail.Subject = "Email confirmation";  // tiêu đề gửi
+                        mail.Body = string.Format("Dear {0} <br/> Thank you for your registration, please click on the  below link to complete your registration: <a href =\"{1}\"  title =\"User Email Confirm\">{1}</a>", tv.HoTen, Url.Action("ConfirmEmail", "Home", new { Token = tv.MaThanhVien, Email = tv.Email }, Request.Url.Scheme));                  // Nội dung
+                        mail.IsBodyHtml = true;
+                        SmtpClient smtp = new SmtpClient();
+                        smtp.Host = "smtp.gmail.com"; // host gửi của Gmail
+                        smtp.Port = 587;               //port của Gmail
+                        smtp.UseDefaultCredentials = false;
+                        smtp.Credentials = new System.Net.NetworkCredential
+                        ("superkutex0@gmail.com", "anhdatvip0x");//Tài khoản password người gửi
+                        smtp.EnableSsl = true;   //kích hoạt giao tiếp an toàn SSL
+                        smtp.Send(mail);   //Gửi mail đi
+                        return RedirectToAction("Confirm", "Home", new { Email = tv.Email });
+
+                    }
+                    ModelState.AddModelError("", "Tài khoản đã tồn tại");
+                    return View(tv);
+                  
                 }
                 else
                 {
@@ -115,6 +185,10 @@ namespace WebSiteBanHang.Controllers
                 ThanhVien tv = db.ThanhViens.SingleOrDefault(n=>n.TaiKhoan==sTaiKhoan && n.MatKhau==sMatKhau);
                 if(tv!= null)
                 {
+                    if(tv.EmailConfirmed == false)
+                {
+                    return Content("Tài khoản bạn chưa xác thực, vui lòng truy cập gmail " + "<a href=\"https://mail.google.com/\"> " + tv.Email +"</a>"  + " để xác thực tài khoản ! ");
+                }
                     var lstQuyen = db.LoaiThanhVien_Quyen.Where(n => n.MaLoaiTV == tv.MaLoaiTV);
                     //Duyệt list quyền
                     string Quyen = "";
@@ -171,5 +245,67 @@ namespace WebSiteBanHang.Controllers
             FormsAuthentication.SignOut();
             return RedirectToAction("Index");
         }
+        //[AllowAnonymous]
+        //public async Task<ActionResult> ConfirmEmail(string Token, string Email)
+        //{
+        //    ApplicationUser user = this.UserManager.FindById(Token);
+        //    if (user != null)
+        //    {
+        //        if (user.Email == Email)
+        //        {
+        //            user.ConfirmedEmail = true;
+        //            await UserManager.UpdateAsync(user);
+        //            await SignInAsync(user, isPersistent: false);
+        //            return RedirectToAction("Index", "Home", new { ConfirmedEmail = user.Email });
+        //        }
+        //        else
+        //        {
+        //            return RedirectToAction("Confirm", "Account", new { Email = user.Email });
+        //        }
+        //    }
+        //    else
+        //    {
+        //        return RedirectToAction("Confirm", "Account", new { Email = "" });
+        //    }
+        //}
+
+        // POST: /Account/Register
+        //[HttpPost]
+        //[AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> Register(RegisterViewModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var user = new ApplicationUser() { UserName = model.UserName };
+        //        user.Email = model.Email;
+        //        user.ConfirmedEmail = false;
+        //        var result = await UserManager.CreateAsync(user, model.Password);
+        //        if (result.Succeeded)
+        //        {
+        //            System.Net.Mail.MailMessage m = new System.Net.Mail.MailMessage(
+        //            new System.Net.Mail.MailAddress("sender@mydomain.com", "Web Registration"),
+        //            new System.Net.Mail.MailAddress(user.Email));
+        //            m.Subject = "Email confirmation";
+        //            m.Body = string.Format("Dear {0} " +
+        //           " < BR /> Thank you for your registration, please click on the below link to complete your registration: < a href =\"{1}\ title =\"User Email Confirm\">{1}</a>",   user.UserName, Url.Action("ConfirmEmail", "Account",
+        //               new { Token = user.Id, Email = user.Email }, Request.Url.Scheme)) ;
+        //            m.IsBodyHtml = true;
+        //            System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient("smtp.mydomain.com");
+        //            smtp.Credentials = new System.Net.NetworkCredential("sender@mydomain.com", "password");
+        //            smtp.ServerCertificateValidationCallback = () => true; //Solution for client certificate error
+        //            smtp.EnableSsl = true;
+        //            smtp.Send(m);
+        //            return RedirectToAction("Confirm", "Account", new { Email = user.Email });
+        //        }
+        //        else
+        //        {
+        //            AddErrors(result);
+        //        }
+        //    }
+        //    // If we got this far, something failed, redisplay form
+        //    return View(model);
+        //}
+ 
     }
 }

@@ -169,7 +169,7 @@
     <NavigationProperty Name="LoaiSanPham" Relationship="Self.FK_SanPham_LoaiSP" FromRole="SanPham" ToRole="LoaiSanPham" />
     <NavigationProperty Name="NhaCungCap" Relationship="Self.FK_SanPham_NhaCungCap" FromRole="SanPham" ToRole="NhaCungCap" />
     <NavigationProperty Name="NhaSanXuat" Relationship="Self.FK_SanPham_NhaSanXuat" FromRole="SanPham" ToRole="NhaSanXuat" />
-    <NavigationProperty Name="StarRatings" Relationship="QuanLyBanHangModel.FK_StarRatings_SanPham" FromRole="SanPham" ToRole="StarRating" />
+    <NavigationProperty Name="StarRatings" Relationship="Self.FK_StarRatings_SanPham" FromRole="SanPham" ToRole="StarRatings" />
   </EntityType>
   <EntityType Name="sysdiagram">
     <Key>
@@ -198,7 +198,17 @@
     <NavigationProperty Name="BinhLuans" Relationship="Self.FK_BinhLuan_ThanhVien" FromRole="ThanhVien" ToRole="BinhLuan" />
     <NavigationProperty Name="KhachHangs" Relationship="Self.FK_KhachHang_ToTable" FromRole="ThanhVien" ToRole="KhachHang" />
     <NavigationProperty Name="LoaiThanhVien" Relationship="Self.FK_ThanhVien_ToTable" FromRole="ThanhVien" ToRole="LoaiThanhVien" />
-    <NavigationProperty Name="StarRatings" Relationship="QuanLyBanHangModel.FK_StarRatings_ThanhVien" FromRole="ThanhVien" ToRole="StarRating" />
+    <Property Name="EmailConfirmed" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="StarRating">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="rate" Type="Int32" />
+    <Property Name="idSanPham" Type="Int32" />
+    <Property Name="ipAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="SanPham" Relationship="Self.FK_StarRatings_SanPham" FromRole="StarRatings" ToRole="SanPham" />
   </EntityType>
   <Association Name="FK_BinhLuan_SanPham">
     <End Role="SanPham" Type="Self.SanPham" Multiplicity="0..1" />
@@ -388,6 +398,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_StarRatings_SanPham">
+    <End Role="SanPham" Type="Self.SanPham" Multiplicity="0..1" />
+    <End Role="StarRatings" Type="Self.StarRating" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SanPham">
+        <PropertyRef Name="MaSP" />
+      </Principal>
+      <Dependent Role="StarRatings">
+        <PropertyRef Name="idSanPham" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="QuanLyBanHangEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="BinhLuans" EntityType="Self.BinhLuan" />
     <EntitySet Name="ChiTietDonDatHangs" EntityType="Self.ChiTietDonDatHang" />
@@ -404,6 +426,7 @@
     <EntitySet Name="SanPhams" EntityType="Self.SanPham" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
     <EntitySet Name="ThanhViens" EntityType="Self.ThanhVien" />
+    <EntitySet Name="StarRatings" EntityType="Self.StarRating" />
     <AssociationSet Name="FK_BinhLuan_SanPham" Association="Self.FK_BinhLuan_SanPham">
       <End Role="SanPham" EntitySet="SanPhams" />
       <End Role="BinhLuan" EntitySet="BinhLuans" />
@@ -464,6 +487,10 @@
       <End Role="NhaSanXuat" EntitySet="NhaSanXuats" />
       <End Role="SanPham" EntitySet="SanPhams" />
     </AssociationSet>
+    <AssociationSet Name="FK_StarRatings_SanPham" Association="Self.FK_StarRatings_SanPham">
+      <End Role="SanPham" EntitySet="SanPhams" />
+      <End Role="StarRatings" EntitySet="StarRatings" />
+    </AssociationSet>
     <FunctionImport Name="sp_alterdiagram">
       <Parameter Name="diagramname" Mode="In" Type="String" />
       <Parameter Name="owner_id" Mode="In" Type="Int32" />
@@ -494,15 +521,6 @@
       <Parameter Name="new_diagramname" Mode="In" Type="String" />
     </FunctionImport>
     <FunctionImport Name="sp_upgraddiagrams" />
-    <EntitySet Name="StarRatings" EntityType="QuanLyBanHangModel.StarRating" />
-    <AssociationSet Name="FK_StarRatings_SanPham" Association="QuanLyBanHangModel.FK_StarRatings_SanPham">
-      <End Role="SanPham" EntitySet="SanPhams" />
-      <End Role="StarRating" EntitySet="StarRatings" />
-    </AssociationSet>
-    <AssociationSet Name="FK_StarRatings_ThanhVien" Association="QuanLyBanHangModel.FK_StarRatings_ThanhVien">
-      <End Role="ThanhVien" EntitySet="ThanhViens" />
-      <End Role="StarRating" EntitySet="StarRatings" />
-    </AssociationSet>
   </EntityContainer>
   <ComplexType Name="sp_helpdiagramdefinition_Result">
     <Property Type="Int32" Name="version" Nullable="true" />
@@ -515,39 +533,4 @@
     <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
     <Property Type="Int32" Name="OwnerID" Nullable="false" />
   </ComplexType>
-  <EntityType Name="StarRating">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="rate" Type="Int32" />
-    <Property Name="idSanPham" Type="Int32" />
-    <NavigationProperty Name="SanPham" Relationship="QuanLyBanHangModel.FK_StarRatings_SanPham" FromRole="StarRating" ToRole="SanPham" />
-    <Property Name="idThanhVien" Type="Int32" />
-    <NavigationProperty Name="ThanhVien" Relationship="QuanLyBanHangModel.FK_StarRatings_ThanhVien" FromRole="StarRating" ToRole="ThanhVien" />
-  </EntityType>
-  <Association Name="FK_StarRatings_SanPham">
-    <End Type="QuanLyBanHangModel.SanPham" Role="SanPham" Multiplicity="0..1" />
-    <End Type="QuanLyBanHangModel.StarRating" Role="StarRating" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="SanPham">
-        <PropertyRef Name="MaSP" />
-      </Principal>
-      <Dependent Role="StarRating">
-        <PropertyRef Name="idSanPham" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_StarRatings_ThanhVien">
-    <End Type="QuanLyBanHangModel.ThanhVien" Role="ThanhVien" Multiplicity="0..1" />
-    <End Type="QuanLyBanHangModel.StarRating" Role="StarRating" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ThanhVien">
-        <PropertyRef Name="MaThanhVien" />
-      </Principal>
-      <Dependent Role="StarRating">
-        <PropertyRef Name="idThanhVien" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
 </Schema>

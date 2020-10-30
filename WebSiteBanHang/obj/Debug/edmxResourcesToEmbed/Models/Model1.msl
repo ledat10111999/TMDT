@@ -170,6 +170,7 @@
     <EntitySetMapping Name="ThanhViens">
       <EntityTypeMapping TypeName="QuanLyBanHangModel.ThanhVien">
         <MappingFragment StoreEntitySet="ThanhVien">
+          <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
           <ScalarProperty Name="MaThanhVien" ColumnName="MaThanhVien" />
           <ScalarProperty Name="TaiKhoan" ColumnName="TaiKhoan" />
           <ScalarProperty Name="MatKhau" ColumnName="MatKhau" />
@@ -180,6 +181,16 @@
           <ScalarProperty Name="CauHoi" ColumnName="CauHoi" />
           <ScalarProperty Name="CauTraLoi" ColumnName="CauTraLoi" />
           <ScalarProperty Name="MaLoaiTV" ColumnName="MaLoaiTV" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StarRatings">
+      <EntityTypeMapping TypeName="QuanLyBanHangModel.StarRating">
+        <MappingFragment StoreEntitySet="StarRatings">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="rate" ColumnName="rate" />
+          <ScalarProperty Name="idSanPham" ColumnName="idSanPham" />
+          <ScalarProperty Name="ipAddress" ColumnName="ipAddress" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -207,15 +218,5 @@
     </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="QuanLyBanHangModel.Store.sp_renamediagram" />
     <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="QuanLyBanHangModel.Store.sp_upgraddiagrams" />
-    <EntitySetMapping Name="StarRatings">
-      <EntityTypeMapping TypeName="QuanLyBanHangModel.StarRating">
-        <MappingFragment StoreEntitySet="StarRatings">
-          <ScalarProperty Name="idThanhVien" ColumnName="idThanhVien" />
-          <ScalarProperty Name="idSanPham" ColumnName="idSanPham" />
-          <ScalarProperty Name="rate" ColumnName="rate" />
-          <ScalarProperty Name="id" ColumnName="id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

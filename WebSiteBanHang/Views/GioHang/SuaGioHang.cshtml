@@ -12,61 +12,108 @@
     List<itemGioHang> lstGioHang = ViewBag.GioHang as List<itemGioHang>;
 }
 
-<div class="col-md-9">
-    <table class="table">
-        <tr>
-            <td>Mã SP</td>
-            <td>Tên SP</td>
-            <td>Hình ảnh</td>
-            <td>Số lượng</td>
-            <td>Đơn giá</td>
-            <td>Thành tiền</td>
-        </tr>
-        @foreach (var item in lstGioHang)
-        {
-            //Nếu mã SP của Model == với mã SP của item trong list
-
-            if (Model.MaSP == item.MaSP)
+    <div class="row">
+        <div class="col-md-9">
+            <table class="table">
+            <tr>
+                <th scope="col">Mã SP</th>
+                <th scope="col">Tên SP</th>
+                <th scope="col">Hình ảnh</th>
+                <th scope="col">Số lượng</th>
+                <th scope="col">Đơn giá</th>
+                <th scope="col">Thành tiền</th>
+                <th scope="col">Chức năng</th>
+            </tr>
+            @foreach (var item in lstGioHang)
             {
-                // Method CapNhatGioHang
-                //Lấy dữ liệu từ Form : vd MaSP và SoLuong
-                // đặt trước phương thức là [HttpPost]
-                using (Html.BeginForm("CapNhatGioHang", "GioHang"))
+                //Nếu mã SP của Model == với mã SP của item trong list
+
+                if (Model.MaSP == item.MaSP)
+                {
+                    // Method CapNhatGioHang
+                    //Lấy dữ liệu từ Form : vd MaSP và SoLuong
+                    // đặt trước phương thức là [HttpPost]
+                    using (Html.BeginForm("CapNhatGioHang", "GioHang"))
+                    {
+                        <tr>
+                            <td>@item.MaSP @Html.Hidden("MaSP", item.MaSP)</td>
+                            <td>@item.TenSP</td>
+                            <td><img src="@Url.Content("~/Content/HinhAnhSP/" + item.HinhAnh)" style="width:50px;height:50px" /></td>
+                            Chỉnh sửa trường số lượng
+                            <td>
+                                @Html.TextBox("SoLuong", item.SoLuong, new { @class = "SoLuongThayDoi" })
+                                <p id="TB_SoLuongThayDoi"></p>
+                            </td>
+                            <td>@item.DonGia.ToString("#,##") đồng</td>
+                            <td>@item.ThanhTien.ToString("#,##") đồng</td>
+                            Thêm nút Submit
+                            <td>
+                                <input type="submit" value="Cập nhật" id="btnCapNhatGH" />
+                                @Html.ActionLink("Xóa", "XoaGioHang", new { @maSP = item.MaSP })
+                            </td>
+                        </tr>
+                    }
+                }
+                else // ngược lại thì không load nút cập nhật
                 {
                     <tr>
-                        <td>@item.MaSP @Html.Hidden("MaSP",item.MaSP)</td>
+                        <td>@item.MaSP</td>
                         <td>@item.TenSP</td>
                         <td><img src="@Url.Content("~/Content/HinhAnhSP/" + item.HinhAnh)" style="width:50px;height:50px" /></td>
-                        @*Chỉnh sửa trường số lượng*@
-                        <td>
-                            @Html.TextBox("SoLuong",item.SoLuong,new { @class="SoLuongThayDoi"})
-                            <p id="TB_SoLuongThayDoi"></p>
-                        </td>
+                        <td>@item.SoLuong</td>
                         <td>@item.DonGia.ToString("#,##") đồng</td>
                         <td>@item.ThanhTien.ToString("#,##") đồng</td>
-                        @*Thêm nút Submit*@
-                        <td><input type="submit" value="Cập nhật" id="btnCapNhatGH"/>
-                            @Html.ActionLink("Xóa", "XoaGioHang", new { @maSP = item.MaSP })</td>
-                    </tr>
-                }
-            }
-            else // ngược lại thì không load nút cập nhật
-            {
-                <tr>
-                    <td>@item.MaSP</td>
-                    <td>@item.TenSP</td>
-                    <td><img src="@Url.Content("~/Content/HinhAnhSP/" + item.HinhAnh)" style="width:50px;height:50px" /></td>
-                    <td>@item.SoLuong</td>
-                    <td>@item.DonGia.ToString("#,##") đồng</td>
-                    <td>@item.ThanhTien.ToString("#,##") đồng</td>
-                    @*Truyền tham số MaSP --- Tạo nút sửa link qua trang SuaGioHang*@
-                    <td>@Html.ActionLink("Sửa", "SuaGioHang", new { @maSP = item.MaSP })
-                        @Html.ActionLink("Xóa", "XoaGioHang", new { @maSP = item.MaSP })</td>
+                        Truyền tham số MaSP --- Tạo nút sửa link qua trang SuaGioHang
+                        <td>
+                            @Html.ActionLink("Sửa", "SuaGioHang", new { @maSP = item.MaSP })
+                        @Html.ActionLink("Xóa", "XoaGioHang", new { @maSP = item.MaSP })
+                    </td>
                 </tr>
             }
         }
-    </table>
-</div>
+        </table>
+            @*<table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Mã SP</th>
+                        <th scope="col">Tên SP</th>
+                        <th scope="col">Hình ảnh</th>
+                        <th scope="col">Số lượng</th>
+                        <th scope="col">Đơn giá</th>
+                        <th scope="col">Thành tiền</th>
+                        <th scope="col">Chức năng</th>
+                    </tr>
+                </thead>
+                <tbody>
+                   
+                    <tr>
+                        @foreach (var item in lstGioHang)
+                        {
+                            if (Model.MaSP == item.MaSP)
+                            {
+
+                        <th scope="row">@item.MaSP @Html.Hidden("MaSP", item.MaSP)</th>
+                        <td>@item.TenSP</td>
+                            <td><img src="@Url.Content("~/Content/HinhAnhSP/" + item.HinhAnh)" style="width:50px;height:50px" /></td>
+                            <td>
+                                @Html.TextBox("SoLuong", item.SoLuong, new { @class = "SoLuongThayDoi " })
+                                <p id="TB_SoLuongThayDoi"></p>
+                            </td>
+                            <td>@item.DonGia.ToString("#,##") đồng</td>
+                            <td>@item.ThanhTien.ToString("#,##") đồng</td>
+                            <td>
+                                <input type="submit" value="Cập nhật" id="btnCapNhatGH" />
+                                @Html.ActionLink("Xóa", "XoaGioHang", new { @maSP = item.MaSP })
+                            </td>
+                            }
+                        }
+
+                    </tr>
+                </tbody>
+            </table>*@
+        </div>
+    </div>
+
 
 
 <script>

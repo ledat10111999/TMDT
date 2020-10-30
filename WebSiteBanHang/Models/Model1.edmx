@@ -148,8 +148,6 @@
           <Property Name="HinhAnh3" Type="nvarchar(max)" />
           <Property Name="HinhAnh4" Type="nvarchar(max)" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'QuanLyBanHang.dbo.StarRatings' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="StarRatings">
           <Key>
             <PropertyRef Name="id" />
@@ -157,7 +155,7 @@ warning 6002: The table/view 'QuanLyBanHang.dbo.StarRatings' does not have a pri
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="rate" Type="int" />
           <Property Name="idSanPham" Type="int" />
-          <Property Name="idThanhVien" Type="int" />
+          <Property Name="ipAddress" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -182,6 +180,7 @@ warning 6002: The table/view 'QuanLyBanHang.dbo.StarRatings' does not have a pri
           <Property Name="SoDienThoai" Type="varchar" MaxLength="12" />
           <Property Name="CauHoi" Type="nvarchar(max)" />
           <Property Name="CauTraLoi" Type="nvarchar(max)" />
+          <Property Name="EmailConfirmed" Type="bit" />
           <Property Name="MaLoaiTV" Type="int" />
         </EntityType>
         <Association Name="FK_BinhLuan_SanPham">
@@ -370,18 +369,6 @@ warning 6002: The table/view 'QuanLyBanHang.dbo.StarRatings' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_StarRatings_ThanhVien">
-          <End Role="ThanhVien" Type="Self.ThanhVien" Multiplicity="0..1" />
-          <End Role="StarRatings" Type="Self.StarRatings" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ThanhVien">
-              <PropertyRef Name="MaThanhVien" />
-            </Principal>
-            <Dependent Role="StarRatings">
-              <PropertyRef Name="idThanhVien" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_ThanhVien_ToTable">
           <End Role="LoaiThanhVien" Type="Self.LoaiThanhVien" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
@@ -441,16 +428,9 @@ warning 6002: The table/view 'QuanLyBanHang.dbo.StarRatings' does not have a pri
           <EntitySet Name="PhieuNhap" EntityType="Self.PhieuNhap" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Quyen" EntityType="Self.Quyen" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SanPham" EntityType="Self.SanPham" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StarRatings" EntityType="Self.StarRatings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ThanhVien" EntityType="Self.ThanhVien" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="StarRatings" EntityType="Self.StarRatings" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [StarRatings].[id] AS [id], 
-    [StarRatings].[rate] AS [rate], 
-    [StarRatings].[idSanPham] AS [idSanPham], 
-    [StarRatings].[idThanhVien] AS [idThanhVien]
-    FROM [dbo].[StarRatings] AS [StarRatings]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_BinhLuan_SanPham" Association="Self.FK_BinhLuan_SanPham">
             <End Role="SanPham" EntitySet="SanPham" />
             <End Role="BinhLuan" EntitySet="BinhLuan" />
@@ -509,10 +489,6 @@ warning 6002: The table/view 'QuanLyBanHang.dbo.StarRatings' does not have a pri
           </AssociationSet>
           <AssociationSet Name="FK_StarRatings_SanPham" Association="Self.FK_StarRatings_SanPham">
             <End Role="SanPham" EntitySet="SanPham" />
-            <End Role="StarRatings" EntitySet="StarRatings" />
-          </AssociationSet>
-          <AssociationSet Name="FK_StarRatings_ThanhVien" Association="Self.FK_StarRatings_ThanhVien">
-            <End Role="ThanhVien" EntitySet="ThanhVien" />
             <End Role="StarRatings" EntitySet="StarRatings" />
           </AssociationSet>
           <AssociationSet Name="FK_ThanhVien_ToTable" Association="Self.FK_ThanhVien_ToTable">
@@ -693,7 +669,7 @@ warning 6002: The table/view 'QuanLyBanHang.dbo.StarRatings' does not have a pri
           <NavigationProperty Name="LoaiSanPham" Relationship="Self.FK_SanPham_LoaiSP" FromRole="SanPham" ToRole="LoaiSanPham" />
           <NavigationProperty Name="NhaCungCap" Relationship="Self.FK_SanPham_NhaCungCap" FromRole="SanPham" ToRole="NhaCungCap" />
           <NavigationProperty Name="NhaSanXuat" Relationship="Self.FK_SanPham_NhaSanXuat" FromRole="SanPham" ToRole="NhaSanXuat" />
-          <NavigationProperty Name="StarRatings" Relationship="QuanLyBanHangModel.FK_StarRatings_SanPham" FromRole="SanPham" ToRole="StarRating" />
+          <NavigationProperty Name="StarRatings" Relationship="Self.FK_StarRatings_SanPham" FromRole="SanPham" ToRole="StarRatings" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -722,7 +698,17 @@ warning 6002: The table/view 'QuanLyBanHang.dbo.StarRatings' does not have a pri
           <NavigationProperty Name="BinhLuans" Relationship="Self.FK_BinhLuan_ThanhVien" FromRole="ThanhVien" ToRole="BinhLuan" />
           <NavigationProperty Name="KhachHangs" Relationship="Self.FK_KhachHang_ToTable" FromRole="ThanhVien" ToRole="KhachHang" />
           <NavigationProperty Name="LoaiThanhVien" Relationship="Self.FK_ThanhVien_ToTable" FromRole="ThanhVien" ToRole="LoaiThanhVien" />
-          <NavigationProperty Name="StarRatings" Relationship="QuanLyBanHangModel.FK_StarRatings_ThanhVien" FromRole="ThanhVien" ToRole="StarRating" />
+          <Property Name="EmailConfirmed" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="StarRating">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="rate" Type="Int32" />
+          <Property Name="idSanPham" Type="Int32" />
+          <Property Name="ipAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="SanPham" Relationship="Self.FK_StarRatings_SanPham" FromRole="StarRatings" ToRole="SanPham" />
         </EntityType>
         <Association Name="FK_BinhLuan_SanPham">
           <End Role="SanPham" Type="Self.SanPham" Multiplicity="0..1" />
@@ -912,6 +898,18 @@ warning 6002: The table/view 'QuanLyBanHang.dbo.StarRatings' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_StarRatings_SanPham">
+          <End Role="SanPham" Type="Self.SanPham" Multiplicity="0..1" />
+          <End Role="StarRatings" Type="Self.StarRating" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SanPham">
+              <PropertyRef Name="MaSP" />
+            </Principal>
+            <Dependent Role="StarRatings">
+              <PropertyRef Name="idSanPham" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="QuanLyBanHangEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="BinhLuans" EntityType="Self.BinhLuan" />
           <EntitySet Name="ChiTietDonDatHangs" EntityType="Self.ChiTietDonDatHang" />
@@ -928,6 +926,7 @@ warning 6002: The table/view 'QuanLyBanHang.dbo.StarRatings' does not have a pri
           <EntitySet Name="SanPhams" EntityType="Self.SanPham" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="ThanhViens" EntityType="Self.ThanhVien" />
+          <EntitySet Name="StarRatings" EntityType="Self.StarRating" />
           <AssociationSet Name="FK_BinhLuan_SanPham" Association="Self.FK_BinhLuan_SanPham">
             <End Role="SanPham" EntitySet="SanPhams" />
             <End Role="BinhLuan" EntitySet="BinhLuans" />
@@ -988,6 +987,10 @@ warning 6002: The table/view 'QuanLyBanHang.dbo.StarRatings' does not have a pri
             <End Role="NhaSanXuat" EntitySet="NhaSanXuats" />
             <End Role="SanPham" EntitySet="SanPhams" />
           </AssociationSet>
+          <AssociationSet Name="FK_StarRatings_SanPham" Association="Self.FK_StarRatings_SanPham">
+            <End Role="SanPham" EntitySet="SanPhams" />
+            <End Role="StarRatings" EntitySet="StarRatings" />
+          </AssociationSet>
           <FunctionImport Name="sp_alterdiagram">
             <Parameter Name="diagramname" Mode="In" Type="String" />
             <Parameter Name="owner_id" Mode="In" Type="Int32" />
@@ -1018,15 +1021,6 @@ warning 6002: The table/view 'QuanLyBanHang.dbo.StarRatings' does not have a pri
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
-          <EntitySet Name="StarRatings" EntityType="QuanLyBanHangModel.StarRating" />
-          <AssociationSet Name="FK_StarRatings_SanPham" Association="QuanLyBanHangModel.FK_StarRatings_SanPham">
-            <End Role="SanPham" EntitySet="SanPhams" />
-            <End Role="StarRating" EntitySet="StarRatings" />
-          </AssociationSet>
-          <AssociationSet Name="FK_StarRatings_ThanhVien" Association="QuanLyBanHangModel.FK_StarRatings_ThanhVien">
-            <End Role="ThanhVien" EntitySet="ThanhViens" />
-            <End Role="StarRating" EntitySet="StarRatings" />
-          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -1039,41 +1033,6 @@ warning 6002: The table/view 'QuanLyBanHang.dbo.StarRatings' does not have a pri
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
         </ComplexType>
-        <EntityType Name="StarRating">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="rate" Type="Int32" />
-          <Property Name="idSanPham" Type="Int32" />
-          <NavigationProperty Name="SanPham" Relationship="QuanLyBanHangModel.FK_StarRatings_SanPham" FromRole="StarRating" ToRole="SanPham" />
-          <Property Name="idThanhVien" Type="Int32" />
-          <NavigationProperty Name="ThanhVien" Relationship="QuanLyBanHangModel.FK_StarRatings_ThanhVien" FromRole="StarRating" ToRole="ThanhVien" />
-        </EntityType>
-        <Association Name="FK_StarRatings_SanPham">
-          <End Type="QuanLyBanHangModel.SanPham" Role="SanPham" Multiplicity="0..1" />
-          <End Type="QuanLyBanHangModel.StarRating" Role="StarRating" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SanPham">
-              <PropertyRef Name="MaSP" />
-            </Principal>
-            <Dependent Role="StarRating">
-              <PropertyRef Name="idSanPham" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_StarRatings_ThanhVien">
-          <End Type="QuanLyBanHangModel.ThanhVien" Role="ThanhVien" Multiplicity="0..1" />
-          <End Type="QuanLyBanHangModel.StarRating" Role="StarRating" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ThanhVien">
-              <PropertyRef Name="MaThanhVien" />
-            </Principal>
-            <Dependent Role="StarRating">
-              <PropertyRef Name="idThanhVien" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1249,6 +1208,7 @@ warning 6002: The table/view 'QuanLyBanHang.dbo.StarRatings' does not have a pri
           <EntitySetMapping Name="ThanhViens">
             <EntityTypeMapping TypeName="QuanLyBanHangModel.ThanhVien">
               <MappingFragment StoreEntitySet="ThanhVien">
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
                 <ScalarProperty Name="MaThanhVien" ColumnName="MaThanhVien" />
                 <ScalarProperty Name="TaiKhoan" ColumnName="TaiKhoan" />
                 <ScalarProperty Name="MatKhau" ColumnName="MatKhau" />
@@ -1259,6 +1219,16 @@ warning 6002: The table/view 'QuanLyBanHang.dbo.StarRatings' does not have a pri
                 <ScalarProperty Name="CauHoi" ColumnName="CauHoi" />
                 <ScalarProperty Name="CauTraLoi" ColumnName="CauTraLoi" />
                 <ScalarProperty Name="MaLoaiTV" ColumnName="MaLoaiTV" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StarRatings">
+            <EntityTypeMapping TypeName="QuanLyBanHangModel.StarRating">
+              <MappingFragment StoreEntitySet="StarRatings">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="rate" ColumnName="rate" />
+                <ScalarProperty Name="idSanPham" ColumnName="idSanPham" />
+                <ScalarProperty Name="ipAddress" ColumnName="ipAddress" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1286,16 +1256,6 @@ warning 6002: The table/view 'QuanLyBanHang.dbo.StarRatings' does not have a pri
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="QuanLyBanHangModel.Store.sp_renamediagram" />
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="QuanLyBanHangModel.Store.sp_upgraddiagrams" />
-          <EntitySetMapping Name="StarRatings">
-            <EntityTypeMapping TypeName="QuanLyBanHangModel.StarRating">
-              <MappingFragment StoreEntitySet="StarRatings">
-                <ScalarProperty Name="idThanhVien" ColumnName="idThanhVien" />
-                <ScalarProperty Name="idSanPham" ColumnName="idSanPham" />
-                <ScalarProperty Name="rate" ColumnName="rate" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

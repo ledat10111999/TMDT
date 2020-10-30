@@ -319,8 +319,11 @@
     <Content Include="App_Data\QuanLyBanHang_log.ldf">
       <DependentUpon>QuanLyBanHang.mdf</DependentUpon>
     </Content>
+    <Content Include="Content\images\1024px-Empty_Star.svg.png" />
     <Content Include="Content\images\800x300%282%29%281%29-800x300.png" />
     <Content Include="Content\images\big-pk-800-300-800x300.png" />
+    <Content Include="Content\images\FilledStar.jpg" />
+    <Content Include="Content\images\FilledStar.png" />
     <Content Include="Content\images\iphone-12-800-300-800x300-3.png" />
     <Content Include="Content\images\shopping-online.jpg" />
     <Content Include="Content\bootstrap.css" />
@@ -573,6 +576,7 @@
     <Content Include="Content\images\si.jpg" />
     <Content Include="Content\images\si1.jpg" />
     <Content Include="Content\images\si2.jpg" />
+    <Content Include="Content\images\star.png" />
     <Content Include="Content\images\t1.jpg" />
     <Content Include="Content\images\t2.jpg" />
     <Content Include="Content\images\t3.jpg" />
@@ -693,6 +697,9 @@
     <Content Include="Content\Layouts\tinymce\js\tinymce\skins\lightgray\fonts\tinymce.eot" />
     <Content Include="Content\Layouts\tinymce\js\tinymce\skins\lightgray\fonts\tinymce.ttf" />
     <Content Include="Content\Layouts\tinymce\js\tinymce\skins\lightgray\fonts\tinymce.woff" />
+    <Content Include="Content\js\jquery-2.0.0.min.js" />
+    <Content Include="Content\js\bootstrap.bundle.min.js" />
+    <Content Include="Content\js\script.js" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -700,9 +707,6 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="Content\js\jquery-2.0.0.min.js" />
-    <Content Include="Content\js\bootstrap.bundle.min.js" />
-    <Content Include="Content\js\script.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -797,6 +801,7 @@
     <Content Include="Views\Quyen\ThemQuyen.cshtml" />
     <Content Include="Views\PhanQuyen\Index.cshtml" />
     <Content Include="Views\PhanQuyen\PhanQuyen.cshtml" />
+    <Content Include="Views\Home\Confirm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

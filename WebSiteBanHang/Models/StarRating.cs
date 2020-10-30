@@ -17,9 +17,8 @@ namespace WebSiteBanHang.Models
         public int id { get; set; }
         public Nullable<int> rate { get; set; }
         public Nullable<int> idSanPham { get; set; }
-        public Nullable<int> idThanhVien { get; set; }
+        public string ipAddress { get; set; }
     
         public virtual SanPham SanPham { get; set; }
-        public virtual ThanhVien ThanhVien { get; set; }
     }
 }

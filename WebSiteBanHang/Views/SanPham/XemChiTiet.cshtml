@@ -6,6 +6,12 @@
     ViewBag.Title = "XemChiTiet";
     Layout = "~/Views/Layout/HomeLayout.cshtml";
 }
+<style>
+    .clearfix {
+        font-size: 100px;
+        display: none;
+    }
+</style>
 
 @using System.Text.RegularExpressions;
 @using System.Text;
@@ -38,6 +44,13 @@
 
 
 }
+@*@section link{
+    <li><a href="/">Home</a> <span>></span></li>
+    <li><a href="/">Điện thoại</a> <span></span></li>*@
+
+
+
+
 
 <div class="row">
 
@@ -77,13 +90,24 @@
         <div class="single-para ">
             <h4>@Model.TenSP</h4>
             <div class="star-on">
-                <ul class="star-footer">
-                    <li><a href="#"><i> </i></a></li>
-                    <li><a href="#"><i> </i></a></li>
-                    <li><a href="#"><i> </i></a></li>
-                    <li><a href="#"><i> </i></a></li>
-                    <li><a href="#"><i> </i></a></li>
-                </ul>
+
+                @*<li><a href="#"><i id="1" class="rating" > </i></a></li>
+        <li><a href="#"><i id="2" class="rating"> </i></a></li>
+        <li><a href="#"><i id="3" class="rating"> </i></a></li>
+        <li><a href="#"><i id="4" class="rating"> </i></a></li>
+        <li><a href="#"><i id="5" class="rating"> </i></a></li>*@
+                <img src="~/Content/images/1024px-Empty_Star.svg.png" alt="Star Rating" align="middle" id="1" class="rating" mid="@Model.MaSP" />
+
+                <img src="~/Content/images/1024px-Empty_Star.svg.png" alt="Star Rating" align="middle" id="2" class="rating" mid="@Model.MaSP" />
+
+                <img src="~/Content/images/1024px-Empty_Star.svg.png" alt="Star Rating" align="middle" id="3" class="rating" mid="@Model.MaSP" />
+
+                <img src="~/Content/images/1024px-Empty_Star.svg.png" alt="Star Rating" align="middle" id="4" class="rating" mid="@Model.MaSP" />
+
+                <img src="~/Content/images/1024px-Empty_Star.svg.png" alt="Star Rating" align="middle" id="5" class="rating" mid="@Model.MaSP" />
+
+                <div class="result"></div>
+
                 <div class="review" style="margin-top:-15px">
                     <p class="font-weight-bold"> Lượt truy cập :@Model.LuotXem</p>
 
@@ -119,3 +143,61 @@
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v8.0" nonce="pfPZNyrZ"></script>
     <div class="fb-comments" data-href="http://localhost:3000/@ToUrlSlug(Model.TenSP)-@Model.MaSP" data-numposts="5" data-width="800" data-adapt-container-width="true"></div>
 </div>
+<script type="text/javascript">
+
+
+
+
+    $(function () {
+
+        // move over
+        $("img.rating").mouseover(function () {
+            giveRating($(this), "FilledStar.png");
+            $(this).css("cursor", "pointer");
+        });
+
+
+        //move out
+        $("img.rating").mouseout(function () {
+            giveRating($(this), "1024px-Empty_Star.svg.png");
+            refilRating($(this));
+        });
+
+        //click
+        $("img.rating").click(function (e) {
+            // $("img.rating").unbind("mouseout mouseover click");
+            $(this).css('color', 'red');
+            // alert(e.currentTarget + ' was clicked!');
+            // call ajax methods to update database
+            //var url = "/SanPham/PostRating?rating=" + parseInt($(this).attr("id")) + "&mid=" + parseInt($(this).attr("mid"));
+            //$.post(url, null, function (data) {
+            //    $(e.currentTarget).closest('tr').find('div.result').text(data).css('color', 'red') // $("#result").text(data);
+            //});
+            var base_url = location.protocol + '//' + document.domain + ':' + location.port;
+            $.ajax({
+                url: base_url + '/SanPham/PostRating',
+                method: 'POST',
+                data: {
+                    id: parseInt($(this).attr("mid")),
+                    rattinng: parseInt($(this).attr("id"))
+                },
+                dataType: "json",
+                success: function (data) {
+                    $(".result").text(data).css('color', 'red') // $("#result").text(data);
+                }
+            })
+        });
+    });
+
+    function giveRating(img, image) {
+        img.attr("src", "/Content/images/" + image)
+            .prevAll("img.rating").attr("src", "/Content/images/" + image);
+    }
+    function refilRating(img1) {
+        var rt = $(img1).closest('tr').find("span.avr").text();
+        var img = $(img1).closest('tr').find("img[id='" + parseInt(rt) + "']");
+        img.attr("src", "/Content/images/FilledStar.png").prevAll("img.rating").attr("src", "/Content/images/FilledStar.png");
+    }
+
+
+</script>
