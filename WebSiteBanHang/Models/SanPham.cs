@@ -11,7 +11,8 @@ namespace WebSiteBanHang.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.Linq;
+
     public partial class SanPham
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -44,7 +45,20 @@ namespace WebSiteBanHang.Models
         public string HinhAnh2 { get; set; }
         public string HinhAnh3 { get; set; }
         public string HinhAnh4 { get; set; }
-    
+
+        public int? RateCount
+        {
+            get { return StarRatings.Count; }
+        }
+        public int? RateTotal
+        {
+            get
+            {
+
+                return (StarRatings.Sum(m => m.rate));
+            }
+        }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BinhLuan> BinhLuans { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

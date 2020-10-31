@@ -187,7 +187,7 @@ namespace WebSiteBanHang.Controllers
                 {
                     if(tv.EmailConfirmed == false)
                 {
-                    return Content("Tài khoản bạn chưa xác thực, vui lòng truy cập gmail " + "<a href=\"https://mail.google.com/\"> " + tv.Email +"</a>"  + " để xác thực tài khoản ! ");
+                    return Content("Tài khoản bạn chưa xác thực, vui lòng truy cập gmail " + "<a href=\"https://mail.google.com/\" target=\"_blank\"> " + tv.Email +"</a>"  + " để xác thực tài khoản ! ");
                 }
                     var lstQuyen = db.LoaiThanhVien_Quyen.Where(n => n.MaLoaiTV == tv.MaLoaiTV);
                     //Duyệt list quyền

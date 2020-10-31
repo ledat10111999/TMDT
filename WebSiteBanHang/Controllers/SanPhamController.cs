@@ -82,23 +82,29 @@ namespace WebSiteBanHang.Controllers
             //save data into the database
 
           
-            string ip = Request.ServerVariables["REMOTE_ADDR"];
-            StarRating rt = new StarRating()
+            string ip = Request.UserHostAddress;
+            var check = db.StarRatings.FirstOrDefault(c => c.ipAddress == ip && c.idSanPham == id);
+            if (check == null)
             {
-                idSanPham = id,
-                rate = rattinng,
-                ipAddress = ip,
+                StarRating rt = new StarRating()
+                {
+                    idSanPham = id,
+                    rate = rattinng,
+                    ipAddress = ip,
 
-            };
-          
-
-            //save into the database 
-            db.StarRatings.Add(rt);
-            db.SaveChanges();
+                };
 
 
+                //save into the database 
+                db.StarRatings.Add(rt);
+                db.SaveChanges();
 
-            return Json("You rated this " + rattinng.ToString() + " star(s)");
+
+
+                return Json("You rated this " + rattinng.ToString() + " star(s)");
         }
+           return Json("Bạn đã đánh giá sản phẩm này rồi");
+
+    }
     }
 }
