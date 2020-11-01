@@ -312,7 +312,7 @@ namespace WebSiteBanHang.Controllers
             return PartialView("GioHangPartial");
 
         }
-        public ActionResult PaymentWithPaypal(KhachHang kh)
+        public ActionResult PaymentWithPaypal(WebSiteBanHang.ViewModel.DatHang kh)
         {
 
 
@@ -331,10 +331,19 @@ namespace WebSiteBanHang.Controllers
                         return RedirectToAction("Index", "Home");
                     }
                     KhachHang khang = new KhachHang();
+                    var khachhang = new KhachHang()
+                    {
+                        DiaChi = kh.DiaChi,
+                        Email = kh.Email,
+                        SoDienThoai = kh.SoDienThoai,
+                        TenKH = kh.TenKH,
+                        DonDatHangs = kh.DonDatHangs,
+                        MaThanhVien = kh.MaThanhVien
+                    };
                     if (Session["TaiKhoan"] == null)
                     {
                         //Thêm kh vào bảng KhachHang ...khi chưa đăng nhập
-                        khang = kh;
+                        khang = khachhang;
                         db.KhachHangs.Add(khang);
                         db.SaveChanges();
                     }

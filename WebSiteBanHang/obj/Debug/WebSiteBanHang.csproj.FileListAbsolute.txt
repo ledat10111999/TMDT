@@ -183,3 +183,4 @@ D:\CNTT\TMDT\WebSiteBanHang\obj\Debug\WebSiteBanHang.csproj.CoreCompileInputs.ca
 D:\CNTT\TMDT\WebSiteBanHang\obj\Debug\WebSiteBanHang.csproj.CopyComplete
 D:\CNTT\TMDT\WebSiteBanHang\obj\Debug\WebSiteBanHang.dll
 D:\CNTT\TMDT\WebSiteBanHang\obj\Debug\WebSiteBanHang.pdb
+D:\CNTT\TMDT\WebSiteBanHang\obj\Debug\WebSiteBanHang.csprojAssemblyReference.cache

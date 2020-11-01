@@ -85,6 +85,18 @@ else
                                 <p style="color:red" id="TB_SoDienThoai"></p>
                             </td>
                         </tr>
+                        <tr>
+                            <td>Phương thức thanh toán</td>
+                            <td>
+                                <span>Thanh toán trực tiếp</span>
+                                @Html.CheckBox("ThanhToanTrucTiep", true, new { id="tructiep" })
+
+                               
+                                <span>Thanh toán quốc tế</span>
+                                @Html.CheckBox("ThanhToanPaypal", false, new { id = "quocte" })
+
+                            </td>
+                        </tr>
                     </table>
                 </div>
 
@@ -92,7 +104,7 @@ else
 
 
             <div class="col-md-9 divDatHang" style="text-align:left">
-                <input type="submit" value="Đặt hàng" id="btnnDatHang" />
+                <input type="submit" class="btn btn-primary" value="Đặt hàng" id="btnnDatHang" />
                 @Html.ActionLink("Mua tiếp", "Index", "Home")
             </div>
         }
@@ -158,25 +170,8 @@ else
 
             }
         });
-
-        //(function () {
-        //    'use strict';
-        //    window.addEventListener('load', function () {
-        //        // Get the forms we want to add validation styles to
-        //        var forms = document.getElementsByClassName('needs-validation');
-        //        // Loop over them and prevent submission
-        //        var validation = Array.prototype.filter.call(forms, function (form) {
-        //            form.addEventListener('submit', function (event) {
-        //                if (form.checkValidity() === false) {
-        //                    event.preventDefault();
-        //                    event.stopPropagation();
-        //                }
-        //                form.classList.add('was-validated');
-        //            }, false);
-        //        });
-        //    }, false);
-        //})();
-
+      
+      
     })
 
 </script>
