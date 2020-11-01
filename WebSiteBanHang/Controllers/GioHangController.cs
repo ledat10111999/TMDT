@@ -385,7 +385,7 @@ namespace WebSiteBanHang.Controllers
                     // Creating a payment
                     // baseURL is the url on which paypal sendsback the data.
                     // So we have provided URL of this controller only
-                    string baseURI = Request.Url.Scheme + "://" + Request.Url.Authority + "/Paypal/PaymentWithPayPal?";
+                    string baseURI = Request.Url.Scheme + "://" + Request.Url.Authority + "/GioHang/PaymentWithPayPal?";
                     //guid we are generating for storing the paymentID received in session
                     //after calling the create function and it is used in the payment execution
                     var guid = Convert.ToString((new Random()).Next(100000));
@@ -426,8 +426,8 @@ namespace WebSiteBanHang.Controllers
                 Logger.Log("Error" + ex.Message);
                 return View("FailureView");
             }
-            db.SaveChanges();
-            return RedirectToAction("XemGioHang");
+            //db.SaveChanges();
+            return RedirectToAction("Index", "Home");
             
         }
         private Payment CreatePayment(APIContext apiContext, string redirectUrl, decimal? price, string tenSp)

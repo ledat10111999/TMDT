@@ -76,6 +76,15 @@ namespace WebSiteBanHang.Controllers
             // trả về dạng list đã sắp xếp
             return View(lstSP.OrderBy(n => n.MaSP).ToPagedList(PageNumber, PageSize));
         }
+        public string GetIp()
+        {
+            string ip = System.Web.HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+            if (string.IsNullOrEmpty(ip))
+            {
+                ip = System.Web.HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
+            }
+            return ip;
+        }
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult PostRating(int rattinng, int id)
         {
@@ -90,7 +99,7 @@ namespace WebSiteBanHang.Controllers
                 {
                     idSanPham = id,
                     rate = rattinng,
-                    ipAddress = ip,
+                    ipAddress = GetIp(),
 
                 };
 
