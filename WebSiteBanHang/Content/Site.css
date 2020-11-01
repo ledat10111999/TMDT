@@ -23,11 +23,17 @@ textarea {
     body {
         font-size: 10px;
     }
+    h5{
+        font-size:8px;
+    }
 }
 
 @media (max-width: 500px) {
     body {
         font-size: 10px;
+    }
+    h5 {
+        font-size: 8px;
     }
 }
 

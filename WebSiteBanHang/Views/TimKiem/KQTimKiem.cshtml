@@ -43,10 +43,10 @@
             <div class="row" id="KQTimKiemUpdateTarget">
                 @foreach (var item in Model.OrderBy(n => n.DonGia))
                 {
-                    <div class="col-md-4 ">
+                    <div class="col-md-4 w-75  ">
                        
-                            <a href="@Url.RouteUrl("XemChiTiet",new { @id=item.MaSP,@tensp=item.TenSP})">
-                                <img class="rounded mx-auto d-block" src="@Url.Content("~/Content/HinhAnhSP/" + item.HinhAnh)" alt="">
+                            <a href="@Url.RouteUrl("XemChiTiet",new { @id=item.MaSP,@tensp=item.TenSP})" class="img-wrap">
+                                <img class="rounded w-75 mx-auto d-block " src="@Url.Content("~/Content/HinhAnhSP/" + item.HinhAnh)" alt="">
                                 @*<div class="pro-grid">
                                     <span class="buy-in">Mua hàng</span>
                                 </div>*@
