@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using WebSiteBanHang.Models;
 using PayPal.Api;
 using WebSiteBanHang.helper;
+using System.Net.Mail;
+
 namespace WebSiteBanHang.Controllers
 {
     public class GioHangController : Controller
@@ -314,131 +316,230 @@ namespace WebSiteBanHang.Controllers
         }
         public ActionResult PaymentWithPaypal(WebSiteBanHang.ViewModel.DatHang kh)
         {
-
-
-          
-
-            //getting the apiContext as earlier
-            APIContext apiContext = Configuration.GetAPIContext();
-            try
+            if(kh.ThanhToanPaypal == true)
             {
-                string payerId = Request.Params["PayerID"];
-                if (string.IsNullOrEmpty(payerId))
+                //getting the apiContext as earlier
+                APIContext apiContext = Configuration.GetAPIContext();
+                try
                 {
+                    string payerId = Request.Params["PayerID"];
+                    if (string.IsNullOrEmpty(payerId))
+                    {
 
-                    if (Session["GioHang"] == null)
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
-                    KhachHang khang = new KhachHang();
-                    var khachhang = new KhachHang()
-                    {
-                        DiaChi = kh.DiaChi,
-                        Email = kh.Email,
-                        SoDienThoai = kh.SoDienThoai,
-                        TenKH = kh.TenKH,
-                        DonDatHangs = kh.DonDatHangs,
-                        MaThanhVien = kh.MaThanhVien
-                    };
-                    if (Session["TaiKhoan"] == null)
-                    {
-                        //Thêm kh vào bảng KhachHang ...khi chưa đăng nhập
-                        khang = khachhang;
-                        db.KhachHangs.Add(khang);
+                        if (Session["GioHang"] == null)
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
+                        KhachHang khang = new KhachHang();
+                        var khachhang = new KhachHang()
+                        {
+                            DiaChi = kh.DiaChi,
+                            Email = kh.Email,
+                            SoDienThoai = kh.SoDienThoai,
+                            TenKH = kh.TenKH,
+                            DonDatHangs = kh.DonDatHangs,
+                            MaThanhVien = kh.MaThanhVien
+                        };
+                        if (Session["TaiKhoan"] == null)
+                        {
+                            //Thêm kh vào bảng KhachHang ...khi chưa đăng nhập
+                            khang = khachhang;
+                            db.KhachHangs.Add(khang);
+                            db.SaveChanges();
+                        }
+                        else
+                        {
+                            // Thêm kh bằng session Taikhoan
+                            ThanhVien tv = Session["TaiKhoan"] as ThanhVien;
+                            khang.TenKH = tv.HoTen;
+                            khang.DiaChi = tv.DiaChi;
+                            khang.Email = tv.Email;
+                            khang.SoDienThoai = tv.SoDienThoai;
+                            khang.MaThanhVien = tv.MaThanhVien;
+                            db.KhachHangs.Add(khang);
+                            db.SaveChanges();
+                        }
+                        //Thêm đơn hàng
+                        DonDatHang ddh = new DonDatHang();
+                        ddh.MaKH = khang.MaKH;
+                        ddh.NgayDat = DateTime.Now;
+                        ddh.TinhTrangGiaoHang = false;
+                        ddh.DaThanhToan = true;
+                        ddh.UuDai = 0;
+                        ddh.DaHuy = false;
+                        ddh.DaXoa = false;
+                        db.DonDatHangs.Add(ddh);
                         db.SaveChanges();
+                        // Thêm chi tiết đơn hàng
+                        List<itemGioHang> lstGioHang = LayGioHang();
+                        decimal price = 0.0m;
+                        string tenSp = "";
+                        foreach (var item in lstGioHang)
+                        {
+                            ChiTietDonDatHang ctdh = new ChiTietDonDatHang();
+                            ctdh.MaDDH = ddh.MaDDH;
+                            ctdh.TenSP = item.TenSP;
+                            ctdh.MaSP = item.MaSP;
+                            ctdh.SoLuong = item.SoLuong;
+                            ctdh.DonGia = item.DonGia;
+                            price += item.SoLuong * item.DonGia;
+                            tenSp += item.TenSP + " ";
+                            db.ChiTietDonDatHangs.Add(ctdh);
+                        }
+
+                        Session["GioHang"] = null;
+
+                        //this section will be executed first because PayerID doesn't exist
+                        //it is returned by the create function call of the payment class
+                        // Creating a payment
+                        // baseURL is the url on which paypal sendsback the data.
+                        // So we have provided URL of this controller only
+                        string baseURI = Request.Url.Scheme + "://" + Request.Url.Authority + "/GioHang/PaymentWithPayPal?";
+                        //guid we are generating for storing the paymentID received in session
+                        //after calling the create function and it is used in the payment execution
+                        var guid = Convert.ToString((new Random()).Next(100000));
+                        //CreatePayment function gives us the payment approval url
+                        //on which payer is redirected for paypal account payment
+                        var createdPayment = this.CreatePayment(apiContext, baseURI + "guid=" + guid, price, tenSp);
+                        //get links returned from paypal in response to Create function call
+                        var links = createdPayment.links.GetEnumerator();
+                        string paypalRedirectUrl = null;
+                        while (links.MoveNext())
+                        {
+                            Links lnk = links.Current;
+                            if (lnk.rel.ToLower().Trim().Equals("approval_url"))
+                            {
+                                //saving the payapalredirect URL to which user will be redirected for payment
+                                paypalRedirectUrl = lnk.href;
+                            }
+                        }
+                        // saving the paymentID in the key guid
+                        Session.Add(guid, createdPayment.id);
+                        return Redirect(paypalRedirectUrl);
                     }
                     else
                     {
-                        // Thêm kh bằng session Taikhoan
-                        ThanhVien tv = Session["TaiKhoan"] as ThanhVien;
-                        khang.TenKH = tv.HoTen;
-                        khang.DiaChi = tv.DiaChi;
-                        khang.Email = tv.Email;
-                        khang.SoDienThoai = tv.SoDienThoai;
-                        khang.MaThanhVien = tv.MaThanhVien;
-                        db.KhachHangs.Add(khang);
-                        db.SaveChanges();
-                    }
-                    //Thêm đơn hàng
-                    DonDatHang ddh = new DonDatHang();
-                    ddh.MaKH = khang.MaKH;
-                    ddh.NgayDat = DateTime.Now;
-                    ddh.TinhTrangGiaoHang = false;
-                    ddh.DaThanhToan = false;
-                    ddh.UuDai = 0;
-                    ddh.DaHuy = false;
-                    ddh.DaXoa = false;
-                    db.DonDatHangs.Add(ddh);
-                    db.SaveChanges();
-                    // Thêm chi tiết đơn hàng
-                    List<itemGioHang> lstGioHang = LayGioHang();
-                    decimal price = 0.0m;
-                    string tenSp = "";
-                    foreach (var item in lstGioHang)
-                    {
-                        ChiTietDonDatHang ctdh = new ChiTietDonDatHang();
-                        ctdh.MaDDH = ddh.MaDDH;
-                        ctdh.TenSP = item.TenSP;
-                        ctdh.MaSP = item.MaSP;
-                        ctdh.SoLuong = item.SoLuong;
-                        ctdh.DonGia = item.DonGia;
-                        price += item.SoLuong * item.DonGia;
-                        tenSp += item.TenSP +" ";
-                        db.ChiTietDonDatHangs.Add(ctdh);
-                    }
-                   
-                    Session["GioHang"] = null;
-                    
-                    //this section will be executed first because PayerID doesn't exist
-                    //it is returned by the create function call of the payment class
-                    // Creating a payment
-                    // baseURL is the url on which paypal sendsback the data.
-                    // So we have provided URL of this controller only
-                    string baseURI = Request.Url.Scheme + "://" + Request.Url.Authority + "/GioHang/PaymentWithPayPal?";
-                    //guid we are generating for storing the paymentID received in session
-                    //after calling the create function and it is used in the payment execution
-                    var guid = Convert.ToString((new Random()).Next(100000));
-                    //CreatePayment function gives us the payment approval url
-                    //on which payer is redirected for paypal account payment
-                    var createdPayment = this.CreatePayment(apiContext, baseURI + "guid=" + guid, price,tenSp );
-                    //get links returned from paypal in response to Create function call
-                    var links = createdPayment.links.GetEnumerator();
-                    string paypalRedirectUrl = null;
-                    while (links.MoveNext())
-                    {
-                        Links lnk = links.Current;
-                        if (lnk.rel.ToLower().Trim().Equals("approval_url"))
+                        // This section is executed when we have received all the payments parameters
+                        // from the previous call to the function Create
+                        // Executing a payment
+                        var guid = Request.Params["guid"];
+                        var executedPayment = ExecutePayment(apiContext, payerId, Session[guid] as string);
+                        if (executedPayment.state.ToLower() != "approved")
                         {
-                            //saving the payapalredirect URL to which user will be redirected for payment
-                            paypalRedirectUrl = lnk.href;
+                            return View("FailureView");
                         }
                     }
-                    // saving the paymentID in the key guid
-                    Session.Add(guid, createdPayment.id);
-                    return Redirect(paypalRedirectUrl);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Log("Error" + ex.Message);
+                    return View("FailureView");
+                }
+                db.SaveChanges();
+                //GuiEmail("Xác nhận đơn hàng", kh.Email, "superkutex0@gmail.com", "anhdatvip0x", "Đơn hàng của bạn đã được đặt thành công");
+                return RedirectToAction("XemGioHang");
+            }
+            else
+            {
+                if (Session["GioHang"] == null)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                KhachHang khang = new KhachHang();
+                var khachhang = new KhachHang()
+                {
+                    DiaChi = kh.DiaChi,
+                    Email = kh.Email,
+                    SoDienThoai = kh.SoDienThoai,
+                    TenKH = kh.TenKH,
+                    DonDatHangs = kh.DonDatHangs,
+                    MaThanhVien = kh.MaThanhVien
+                };
+                if (Session["TaiKhoan"] == null)
+                {
+                    //Thêm kh vào bảng KhachHang ...khi chưa đăng nhập
+                    khang = khachhang;
+                    db.KhachHangs.Add(khang);
+                    db.SaveChanges();
                 }
                 else
                 {
-                    // This section is executed when we have received all the payments parameters
-                    // from the previous call to the function Create
-                    // Executing a payment
-                    var guid = Request.Params["guid"];
-                    var executedPayment = ExecutePayment(apiContext, payerId, Session[guid] as string);
-                    if (executedPayment.state.ToLower() != "approved")
-                    {
-                        return View("FailureView");
-                    }
+                    // Thêm kh bằng session Taikhoan
+                    ThanhVien tv = Session["TaiKhoan"] as ThanhVien;
+                    khang.TenKH = tv.HoTen;
+                    khang.DiaChi = tv.DiaChi;
+                    khang.Email = tv.Email;
+                    khang.SoDienThoai = tv.SoDienThoai;
+                    khang.MaThanhVien = tv.MaThanhVien;
+                    db.KhachHangs.Add(khang);
+                    db.SaveChanges();
                 }
+                //Thêm đơn hàng
+                DonDatHang ddh = new DonDatHang();
+                ddh.MaKH = khang.MaKH;
+                ddh.NgayDat = DateTime.Now;
+                ddh.TinhTrangGiaoHang = false;
+                ddh.DaThanhToan = false;
+                ddh.UuDai = 0;
+                ddh.DaHuy = false;
+                ddh.DaXoa = false;
+                db.DonDatHangs.Add(ddh);
+                db.SaveChanges();
+                // Thêm chi tiết đơn hàng
+                List<itemGioHang> lstGioHang = LayGioHang();
+               
+             
+                foreach (var item in lstGioHang)
+                {
+                    ChiTietDonDatHang ctdh = new ChiTietDonDatHang();
+                    ctdh.MaDDH = ddh.MaDDH;
+                    ctdh.TenSP = item.TenSP;
+                    ctdh.MaSP = item.MaSP;
+                    ctdh.SoLuong = item.SoLuong;
+                    ctdh.DonGia = item.DonGia;
+    
+                    db.ChiTietDonDatHangs.Add(ctdh);
+                }
+
+                Session["GioHang"] = null;
+                db.SaveChanges();
+                return RedirectToAction("XemGioHang");
             }
-            catch (Exception ex)
-            {
-                Logger.Log("Error" + ex.Message);
-                return View("FailureView");
-            }
-            //db.SaveChanges();
-            return RedirectToAction("Index", "Home");
+           
             
         }
+
+        public ActionResult listProvince()
+        {
+
+            return PartialView(db.provinces.ToList());
+        }
+        [HttpPost]
+        public ActionResult listDistricts(string p_name)
+        {
+            var list = (from b in db.districts
+                        join c in db.provinces
+                        on b.C_province_id equals c.id
+                        where c.C_name == p_name
+                        select b
+                                 ).ToList();
+            return PartialView(list);
+
+        }
+        [HttpPost]
+        public ActionResult listWards(string tenTp, string tenQuan)
+        {
+            var query = (from d in db.districts
+                         join w in db.wards
+                         on d.id equals w.C_district_id
+                         join p in db.provinces on w.C_province_id equals p.id
+                         join pr in db.provinces on tenTp equals pr.C_name
+                         where d.C_name == tenQuan
+                         select w).ToList();
+            return PartialView(query);
+
+        }
+
         private Payment CreatePayment(APIContext apiContext, string redirectUrl, decimal? price, string tenSp)
         {
             var itemList = new ItemList() { items = new List<Item>() };
@@ -504,6 +605,25 @@ namespace WebSiteBanHang.Controllers
             };
             // Create a payment using a APIContext
             return this.payment.Create(apiContext);
+        }
+        public void GuiEmail(string Title, string ToEmail, string FromEmail, string PassWord, string Content)
+        {
+            // goi email
+            MailMessage mail = new MailMessage();
+            mail.To.Add(ToEmail); // Địa chỉ nhận
+            mail.From = new MailAddress(ToEmail); // Địa chửi gửi
+            mail.Subject = Title;  // tiêu đề gửi
+            mail.Body = Content;                 // Nội dung
+
+            mail.IsBodyHtml = true;
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = "smtp.gmail.com"; // host gửi của Gmail
+            smtp.Port = 587;               //port của Gmail
+            smtp.UseDefaultCredentials = false;
+            smtp.Credentials = new System.Net.NetworkCredential
+            (FromEmail, PassWord);//Tài khoản password người gửi
+            smtp.EnableSsl = true;   //kích hoạt giao tiếp an toàn SSL
+            smtp.Send(mail);   //Gửi mail đi
         }
     }
 

@@ -15,7 +15,7 @@ namespace WebSiteBanHang.Controllers
         public ActionResult ChuaThanhToan()
         {
             // Ds đơn hàng chưa duyệt
-            var lst = db.DonDatHangs.Where(n => n.DaThanhToan == false).OrderBy(n => n.NgayDat);
+            var lst = db.DonDatHangs.Where(n => n.DaThanhToan == false).OrderByDescending(n => n.NgayDat);
             return View(lst);
         }
 
@@ -60,8 +60,9 @@ namespace WebSiteBanHang.Controllers
 
             // Lấy ds chi tiết đơn hàng để hiển thị cho người dùng thấy
             var lstChiTietDH = db.ChiTietDonDatHangs.Where(n => n.MaDDH == ddh.MaDDH);
+            
             ViewBag.ListChiTietDH = lstChiTietDH;
-            GuiEmail("Xác nhận đơn hàng", "ledat10111999@gmail.com", "superkutex0@gmail.com", "anhdatvip0x", "Đơn hàng của bạn đã được đặt thành công");
+            GuiEmail("Xác nhận đơn hàng", ddhUpdate.KhachHang.Email, "superkutex0@gmail.com", "anhdatvip0x", "Đơn hàng của bạn đã được đặt thành công");
             return View(ddhUpdate);
         }
 
@@ -73,6 +74,7 @@ namespace WebSiteBanHang.Controllers
             mail.From = new MailAddress(ToEmail); // Địa chửi gửi
             mail.Subject = Title;  // tiêu đề gửi
             mail.Body = Content;                 // Nội dung
+            
             mail.IsBodyHtml = true;
             SmtpClient smtp = new SmtpClient();
             smtp.Host = "smtp.gmail.com"; // host gửi của Gmail

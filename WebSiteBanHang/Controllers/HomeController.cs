@@ -126,7 +126,7 @@ namespace WebSiteBanHang.Controllers
                     var us = db.ThanhViens.FirstOrDefault(c => c.TaiKhoan == tv.TaiKhoan);
                     if (us == null)
                     {
-                        tv.MaLoaiTV = 1;
+                        tv.MaLoaiTV = 3;
                         ViewBag.ThongBao = "Thêm thành công";
                         db.ThanhViens.Add(tv);
                         db.SaveChanges();

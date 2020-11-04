@@ -7,14 +7,26 @@
     ViewBag.Title = "XemGioHang";
     Layout = "~/Views/Layout/HomeLayout.cshtml";
 }
+<style>
+      #ss{
+        display: none;
+        position: fixed;
+        left: 50px;
+        animation: mymove 2s infinite;
 
+      }
+      @@keyframes mymove {
+      from {bottom: 5pc;}
+      to {bottom:  8pc}
+    }
+</style>
 @if (Model.Count <= 0 || Model == null)
 {
     <h1 style="color:red;text-align:center;font-weight:bold">GIỎ HÀNG RỖNG</h1>
 }
 else
 {
-    <div class="col-md-9 product1">
+    <div class="col-md-10 product1">
         <h1 style="color:red;text-align:center;font-weight:bold">GIỎ HÀNG</h1>
         <table class="table">
             <tr>
@@ -47,8 +59,7 @@ else
 
         @using (Html.BeginForm("PaymentWithPaypal", "GioHang"))
         {
-            if (Session["TaiKhoan"] == null)
-            {
+           
                 <div class="ThongTinMuaHang">
                     <table align="center" class="table">
                         <tr>
@@ -66,8 +77,17 @@ else
                         <tr>
                             <td>Địa chỉ</td>
                             <td>
-                                @Html.TextArea("DiaChi")
-                                <p style="color:red" id="TB_DiaChi"></p>
+                                @*@Html.TextArea("DiaChi")
+                                    <p style="color:red" id="TB_DiaChi"></p>*@
+                                @{Html.RenderAction("listProvince", "GioHang"); }
+                                <select class="selectpicker Sdistrict" data-live-search="true">
+                                    <option selected value=" " data-tokens="ketchup mustard">Chọn quận</option>
+
+                                </select>
+                                <select class="selectpicker Sward" data-live-search="true">
+                                    <option selected data-tokens="ketchup mustard">chọn Phường</option>
+
+                                </select>
                             </td>
 
                         </tr>
@@ -81,6 +101,7 @@ else
                         <tr>
                             <td>Số điện thoại</td>
                             <td>
+                                @Html.Hidden("DiaChi",null,new {id= "excelentAddress" })
                                 @Html.TextBox("SoDienThoai")
                                 <p style="color:red" id="TB_SoDienThoai"></p>
                             </td>
@@ -88,19 +109,22 @@ else
                         <tr>
                             <td>Phương thức thanh toán</td>
                             <td>
-                                <span>Thanh toán trực tiếp</span>
-                                @Html.CheckBox("ThanhToanTrucTiep", true, new { id="tructiep" })
+                                <div class="mr-2 d-inline">
+                                    <span>Thanh toán trực tiếp</span>
+                                    @Html.CheckBox("ThanhToanTrucTiep", true , new { id ="tt" })
+                                </div>
 
-                               
+
+
                                 <span>Thanh toán quốc tế</span>
-                                @Html.CheckBox("ThanhToanPaypal", false, new { id = "quocte" })
+                                @Html.CheckBox("ThanhToanPaypal", false, new { id = "qt" })
 
                             </td>
                         </tr>
                     </table>
                 </div>
 
-            }
+            
 
 
             <div class="col-md-9 divDatHang" style="text-align:left">
@@ -110,8 +134,28 @@ else
         }
     </div>
 }
+<div class="alert alert-success  " id="ss">
+    <strong>Success!</strong> Đặt hàng thành công
+</div>
+<div class="wait">
+    <div class="loader"></div>
+</div>
 
 <script>
+
+
+    function check() {
+
+        $("[type=checkbox]").click((e) => {
+
+            $("input:checked").not(this).prop("checked", false);
+            e.target.checked = true;
+        })
+
+    }
+
+
+
 
     $(document).ready(() => {
         $("form").submit(function (event) {
@@ -154,7 +198,7 @@ else
 
             }
             else {
-              
+
 
                 $("#TB_SoDienThoai").text("");
             }
@@ -164,14 +208,106 @@ else
 
                 event.preventDefault();
             } else {
+              
+          
+                if (document.getElementById('tt').checked == true) {
+                    event.preventDefault();
+                    var box = document.getElementById('ss');
+                    box.style.display = "block";
+                    
+                    setTimeout(() => {
+                        box.style.display = "none";
+                        $(this).unbind('submit').submit()
+                    }, 2000)
 
-                return true;
-               
+                } else {
+                    $(".wait").css('display', 'flex');
+                    return true;
+                }
+              
+             
+
 
             }
         });
-      
-      
+        new check();
+        $('.Scity').change((e) => {
+
+            var selectedCity = $('.selectpicker.Scity').val();
+            var base_url = location.protocol + '//' + document.domain + ':' + location.port;
+            $.ajax({
+                url: base_url + '/GioHang/listDistricts',
+                dataType: 'html',
+                method: 'post',
+
+                data: {
+                    p_name: selectedCity
+                },
+                success: (res) => {
+                    $('.selectpicker.Sdistrict').html(res).selectpicker('refresh')
+
+                }
+            })
+        })
+
+        $('.Scity,.Sdistrict').change((e) => {
+
+            var selectedCity = $('.selectpicker.Scity').val();
+            var selectedDistrict = $('.selectpicker.Sdistrict').val();
+            var base_url = location.protocol + '//' + document.domain + ':' + location.port;
+            $.ajax({
+                url: base_url + '/GioHang/listWards',
+                dataType: 'html',
+                method: 'post',
+
+                data: {
+                    tenTp: selectedCity,
+                    tenQuan: selectedDistrict
+                },
+                success: (res) => {
+
+                    $('.selectpicker.Sward').html(res).selectpicker('refresh')
+
+                }
+            })
+        })
+        ////////////////////// dia chi
+        $('.Scity,.Sdistrict,.Sward').change(() => {
+            var province = $('.selectpicker.Scity').val();
+            var district = () => {
+                return $('.selectpicker.Sdistrict').val().trim().length == 0 ? "" : `${$('.selectpicker.Sdistrict').val()}  `;
+            };
+            var ward = () => {
+                return $('.selectpicker.Sward').val().trim().length == 0 ? "" : `${$('.selectpicker.Sward').val()}  `;
+            }
+
+         
+            $('#excelentAddress').val( ward() + district() + province);
+
+        })
+
+
     })
 
 </script>
+@section select{
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+}
+@section bar{
+    <style>
+       
+    </style>
+    <div class="row">
+        <ul class="lis">
+            <li> <a href="/">Home</a> <span>›</span></li>
+            <li> <a href="/GioHang/XemGioHang">Giỏ hàng</a> </li>
+        </ul>
+    </div>
+   
+    
+    
+    }

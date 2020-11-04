@@ -8,69 +8,81 @@
 }
 
 
+<div class="row">
+    @using (Html.BeginForm("DangKy", "Home", FormMethod.Post, new { @class = "w-100" }))
+    {
+        @Html.AntiForgeryToken()
+        <h1 class="text-center">Đăng kí thành viên</h1>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="col-md-10 mt-2 ">
+            <h3 class="text-center">Thông tin cá nhân</h3>
+            <div>
+                @Html.LabelFor(model => model.TaiKhoan)
+                @Html.TextBoxFor(model => model.TaiKhoan)
+                @Html.ValidationMessageFor(model => model.TaiKhoan, "", new { @class = "text-danger" })
+            </div>
+            <div>
+                <span>Họ tên</span>
+                @Html.TextBox("HoTen")
+                @Html.ValidationMessageFor(model => model.HoTen, "", new { @class = "text-danger" })
+            </div>
+            <div>
+                <span>Địa chỉ</span>
+                @Html.TextBox("DiaChi")
+                @Html.ValidationMessageFor(model => model.DiaChi, "", new { @class = "text-danger" })
+            </div>
+            <div>
+                <span>Email</span>
+                @Html.TextBox("Email")
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-10 mt-2 ">
+            <h3 class="text-center">Thông tin đăng nhập</h3>
+            <div>
+                <span>Mật khẩu</span>
+                @Html.Password("MatKhau")
+                @Html.ValidationMessageFor(model => model.MatKhau, "", new { @class = "text-danger" })
+            </div>
+            <div>
+                <span>Nhập lại mật khẩu</span>
+                @Html.Password("MatKhau")
+                @Html.ValidationMessageFor(model => model.MatKhau, "", new { @class = "text-danger" })
+            </div>
+            <div>
+                <span>Câu hỏi bí mật</span>
+                @Html.DropDownList("CauHoi", null, new { @class = "form-control" })
+            </div>
+            <div>
+                <span>Câu trả lời</span>
+                @Html.TextBox("CauTraLoi")
+            </div>
+            <div>
+                @Html.MathCaptcha()
+            </div>
+            <input type="submit" class="btn btn-primary" value="Xác nhận">
+        </div>
+        <div class="clearfix"> </div>
+        <div>
+            <h1 style="color:red">@ViewBag.ThongBao</h1>
+        </div>
+    }
+
+
+
+
+</div>
+@section bar{
+    <style>
+    </style>
     <div class="row">
-                @using (Html.BeginForm("DangKy","Home",FormMethod.Post, new { @class = "w-100" }))
-                {
-                    @Html.AntiForgeryToken()
-                    <h1 class="text-center">Đăng kí thành viên</h1>
-                    <hr />
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    <div class="col-md-10 mt-2 ">
-                        <h3 class="text-center">Thông tin cá nhân</h3>
-                        <div>
-                            @Html.LabelFor(model => model.TaiKhoan)
-                            @Html.TextBoxFor(model => model.TaiKhoan)
-                            @Html.ValidationMessageFor(model => model.TaiKhoan,"", new { @class = "text-danger" })
-                        </div>
-                        <div>
-                            <span>Họ tên</span>
-                            @Html.TextBox("HoTen")
-                            @Html.ValidationMessageFor(model => model.HoTen, "", new { @class = "text-danger" })
-                        </div>
-                        <div>
-                            <span>Địa chỉ</span>
-                            @Html.TextBox("DiaChi")
-                            @Html.ValidationMessageFor(model => model.DiaChi, "", new { @class = "text-danger" })
-                        </div>
-                        <div>
-                            <span>Email</span>
-                            @Html.TextBox("Email")
-                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="col-md-10 mt-2 ">
-                        <h3 class="text-center">Thông tin đăng nhập</h3>
-                        <div>
-                            <span>Mật khẩu</span>
-                            @Html.Password("MatKhau")
-                            @Html.ValidationMessageFor(model => model.MatKhau, "", new { @class = "text-danger" })
-                        </div>
-                        <div>
-                            <span>Nhập lại mật khẩu</span>
-                            @Html.Password("MatKhau")
-                            @Html.ValidationMessageFor(model => model.MatKhau, "", new { @class = "text-danger" })
-                        </div>
-                        <div>
-                            <span>Câu hỏi bí mật</span>
-                            @Html.DropDownList("CauHoi" ,null,new {@class= "form-control" })
-                        </div>
-                        <div>
-                            <span>Câu trả lời</span>
-                            @Html.TextBox("CauTraLoi")
-                        </div>
-                        <div>
-                            @Html.MathCaptcha()
-                        </div>
-                        <input type="submit" class="btn btn-primary" value="Xác nhận">
-                    </div>
-                    <div class="clearfix"> </div>
-                    <div>
-                        <h1 style="color:red">@ViewBag.ThongBao</h1>
-                    </div>
-                }
-
-          
-
-
+        <ul class="lis">
+            <li> <a href="/">Home</a> <span>›</span></li>
+            <li> <a href="/Home/Dangky">Đăng ký</a> </li>
+        </ul>
     </div>
 
+
+
+}

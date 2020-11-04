@@ -12,7 +12,16 @@ namespace WebSiteBanHang.Controllers
         // GET: Quyen
         public ActionResult Index()
         {
-            return View(db.Quyens.OrderBy(n=>n.TenQuyen));
+            ThanhVien tv = (ThanhVien)Session["TaiKhoan"];
+            if(tv != null)
+            {
+                if (tv.MaLoaiTV == 1)
+                {
+                    return View(db.Quyens.OrderBy(n => n.TenQuyen));
+                }
+                return RedirectToAction("Index", "Home");
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]

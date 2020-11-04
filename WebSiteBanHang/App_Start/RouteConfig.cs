@@ -12,6 +12,14 @@ namespace WebSiteBanHang
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            // admin
+            routes.MapRoute(
+              name: "admin",
+              url: "admin",
+              defaults: new { controller = "Quyen", action = "Index", id = UrlParameter.Optional }
+          );
+
+
 
             // Cấu hình đường dẫn thân thiện cho XemChiTiet
             routes.MapRoute(

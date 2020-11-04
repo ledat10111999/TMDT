@@ -46,7 +46,7 @@ namespace WebSiteBanHang.Models
         public string HinhAnh3 { get; set; }
         public string HinhAnh4 { get; set; }
 
-        public int? RateCount
+        public int RateCount
         {
             get { return StarRatings.Count; }
         }
@@ -58,6 +58,7 @@ namespace WebSiteBanHang.Models
                 return (StarRatings.Sum(m => m.rate));
             }
         }
+
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BinhLuan> BinhLuans { get; set; }

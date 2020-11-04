@@ -30,6 +30,15 @@
     <Property Name="DonGiaNhap" Type="decimal" Precision="18" Scale="0" />
     <Property Name="SoLuongNhap" Type="int" />
   </EntityType>
+  <EntityType Name="district">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="_name" Type="nvarchar" MaxLength="100" />
+    <Property Name="_prefix" Type="nvarchar" MaxLength="20" />
+    <Property Name="_province_id" Type="bigint" />
+  </EntityType>
   <EntityType Name="DonDatHang">
     <Key>
       <PropertyRef Name="MaDDH" />
@@ -110,6 +119,14 @@
     <Property Name="NgayNhap" Type="datetime" />
     <Property Name="DaXoa" Type="bit" />
   </EntityType>
+  <EntityType Name="province">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="_name" Type="nvarchar" MaxLength="50" />
+    <Property Name="_code" Type="nvarchar" MaxLength="20" />
+  </EntityType>
   <EntityType Name="Quyen">
     <Key>
       <PropertyRef Name="MaQuyen" />
@@ -122,7 +139,6 @@
       <PropertyRef Name="MaSP" />
     </Key>
     <Property Name="MaSP" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="TenSP" Type="nvarchar" MaxLength="255" />
     <Property Name="DonGia" Type="decimal" Precision="18" Scale="0" />
     <Property Name="NgayCapNhap" Type="datetime" />
     <Property Name="CauHinh" Type="nvarchar(max)" />
@@ -138,6 +154,7 @@
     <Property Name="MaNSX" Type="int" />
     <Property Name="MaLoaiSP" Type="int" />
     <Property Name="DaXoa" Type="bit" />
+    <Property Name="TenSP" Type="nvarchar" MaxLength="255" />
     <Property Name="HinhAnh1" Type="nvarchar(max)" />
     <Property Name="HinhAnh2" Type="nvarchar(max)" />
     <Property Name="HinhAnh3" Type="nvarchar(max)" />
@@ -177,6 +194,16 @@
     <Property Name="CauTraLoi" Type="nvarchar(max)" />
     <Property Name="EmailConfirmed" Type="bit" />
     <Property Name="MaLoaiTV" Type="int" />
+  </EntityType>
+  <EntityType Name="ward">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="_name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="_prefix" Type="nvarchar" MaxLength="20" />
+    <Property Name="_province_id" Type="bigint" />
+    <Property Name="_district_id" Type="bigint" />
   </EntityType>
   <Association Name="FK_BinhLuan_SanPham">
     <End Role="SanPham" Type="Self.SanPham" Multiplicity="0..1" />
@@ -413,6 +440,7 @@
     <EntitySet Name="BinhLuan" EntityType="Self.BinhLuan" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ChiTietDonDatHang" EntityType="Self.ChiTietDonDatHang" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ChiTietPhieuNhap" EntityType="Self.ChiTietPhieuNhap" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="district" EntityType="Self.district" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="DonDatHang" EntityType="Self.DonDatHang" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="KhachHang" EntityType="Self.KhachHang" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="LoaiSanPham" EntityType="Self.LoaiSanPham" Schema="dbo" store:Type="Tables" />
@@ -421,11 +449,13 @@
     <EntitySet Name="NhaCungCap" EntityType="Self.NhaCungCap" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="NhaSanXuat" EntityType="Self.NhaSanXuat" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PhieuNhap" EntityType="Self.PhieuNhap" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="province" EntityType="Self.province" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Quyen" EntityType="Self.Quyen" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SanPham" EntityType="Self.SanPham" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="StarRatings" EntityType="Self.StarRatings" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ThanhVien" EntityType="Self.ThanhVien" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ward" EntityType="Self.ward" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_BinhLuan_SanPham" Association="Self.FK_BinhLuan_SanPham">
       <End Role="SanPham" EntitySet="SanPham" />
       <End Role="BinhLuan" EntitySet="BinhLuan" />

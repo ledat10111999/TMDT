@@ -11,7 +11,7 @@
 
     <title>@ViewBag.Title</title>
 
-    <link href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/images/favicon.ico" rel="shortcut icon"
+    <link href="~/Content/images/logo.png" rel="shortcut icon"
           type="image/x-icon">
 
     <!-- jQuery -->
@@ -33,7 +33,7 @@
           media="only screen and (max-width: 1200px)">
 
     <!-- custom javascript -->
-    <script src="~/Content/js/script.js" type="text/javascript"></script>
+    @*<script src="~/Content/js/script.js" type="text/javascript"></script>*@
     <script type="text/javascript" src="~/Content/js/memenu.js"></script>
     @*css*@
     <link href="~/Content/css/style.css" rel="stylesheet" type="text/css" media="all" />
@@ -53,8 +53,12 @@
     <link rel="stylesheet" href="~/Content/css/SigIn.css">
 
     @*bootstrap form*@
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>*@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    @RenderSection("select",required:false)
 
 
     <script type="text/javascript">
@@ -67,9 +71,9 @@
         });
         // jquery end
     </script>
-     @*CSS*@
+    @*CSS*@
     <link rel="stylesheet" href="~/Content/Site.css">
-   
+
 </head>
 
 <body>
@@ -124,169 +128,171 @@
 
         <!--content-->
         <div class="container">
+            @RenderSection("bar",required:false)
             @RenderBody()
 
         </div>
         <!-- ========================= FOOTER ========================= -->
-        <footer class="section-footer border-top bg">
-            <div class="container">
-                <section class="footer-top  padding-y">
-                    <div class="row">
-                        <aside class="col-md col-6">
-                            <h6 class="title">Brands</h6>
-                            <ul class="list-unstyled">
-                                <li>
-                                    <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">Adidas</a>
-                                </li>
-                                <li>
-                                    <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">Puma</a>
-                                </li>
-                                <li>
-                                    <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">Reebok</a>
-                                </li>
-                                <li>
-                                    <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">Nike</a>
-                                </li>
-                            </ul>
-                        </aside>
-                        <aside class="col-md col-6">
-                            <h6 class="title">Company</h6>
-                            <ul class="list-unstyled">
-                                <li>
-                                    <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">
-                                        About
-                                        us
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">Career</a>
-                                </li>
-                                <li>
-                                    <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">
-                                        Find
-                                        a store
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">
-                                        Rules
-                                        and terms
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">Sitemap</a>
-                                </li>
-                            </ul>
-                        </aside>
-                        <aside class="col-md col-6">
-                            <h6 class="title">Help</h6>
-                            <ul class="list-unstyled">
-                                <li>
-                                    <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">
-                                        Contact
-                                        us
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">
-                                        Money
-                                        refund
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">
-                                        Order
-                                        status
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">
-                                        Shipping
-                                        info
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">
-                                        Open
-                                        dispute
-                                    </a>
-                                </li>
-                            </ul>
-                        </aside>
-                        <aside class="col-md col-6">
-                            <h6 class="title">Account</h6>
-                            <ul class="list-unstyled">
-                                <li>
-                                    <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">
-                                        User Login
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">
-                                        User register
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">
-                                        Account Setting
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">
-                                        My Orders
-                                    </a>
-                                </li>
-                            </ul>
-                        </aside>
-                        <aside class="col-md">
-                            <h6 class="title">Social</h6>
-                            <ul class="list-unstyled">
-                                <li>
-                                    <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">
-                                        <i class="fab fa-facebook"></i> Facebook
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">
-                                        <i class="fab fa-twitter"></i> Twitter
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">
-                                        <i class="fab fa-instagram"></i> Instagram
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">
-                                        <i class="fab fa-youtube"></i> Youtube
-                                    </a>
-                                </li>
-                            </ul>
-                        </aside>
-                    </div> <!-- row.// -->
-                </section> <!-- footer-top.// -->
 
-                <section class="footer-bottom row">
-                    <div class="col-md-2">
-                        <p class="text-muted"> © 2019 Company name </p>
-                    </div>
-                    <div class="col-md-8 text-md-center">
-                        <span class="px-2">info@pixsellz.io</span>
-                        <span class="px-2">+879-332-9375</span>
-                        <span class="px-2">Street name 123, Avanue abc</span>
-                    </div>
-                    <div class="col-md-2 text-md-right text-muted">
-                        <i class="fab fa-lg fa-cc-visa"></i>
-                        <i class="fab fa-lg fa-cc-paypal"></i>
-                        <i class="fab fa-lg fa-cc-mastercard"></i>
-                    </div>
-                </section>
-            </div><!-- //container -->
-        </footer>
-        <!-- ========================= FOOTER END // ========================= -->
 
 
     </header>
+    <footer class="section-footer border-top bg">
+        <div class="container">
+            <section class="footer-top  padding-y">
+                <div class="row">
+                    <aside class="col-md col-6">
+                        <h6 class="title">Brands</h6>
+                        <ul class="list-unstyled">
+                            <li>
+                                <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">Adidas</a>
+                            </li>
+                            <li>
+                                <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">Puma</a>
+                            </li>
+                            <li>
+                                <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">Reebok</a>
+                            </li>
+                            <li>
+                                <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">Nike</a>
+                            </li>
+                        </ul>
+                    </aside>
+                    <aside class="col-md col-6">
+                        <h6 class="title">Company</h6>
+                        <ul class="list-unstyled">
+                            <li>
+                                <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">
+                                    About
+                                    us
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">Career</a>
+                            </li>
+                            <li>
+                                <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">
+                                    Find
+                                    a store
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">
+                                    Rules
+                                    and terms
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">Sitemap</a>
+                            </li>
+                        </ul>
+                    </aside>
+                    <aside class="col-md col-6">
+                        <h6 class="title">Help</h6>
+                        <ul class="list-unstyled">
+                            <li>
+                                <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">
+                                    Contact
+                                    us
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">
+                                    Money
+                                    refund
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">
+                                    Order
+                                    status
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">
+                                    Shipping
+                                    info
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">
+                                    Open
+                                    dispute
+                                </a>
+                            </li>
+                        </ul>
+                    </aside>
+                    <aside class="col-md col-6">
+                        <h6 class="title">Account</h6>
+                        <ul class="list-unstyled">
+                            <li>
+                                <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">
+                                    User Login
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">
+                                    User register
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">
+                                    Account Setting
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">
+                                    My Orders
+                                </a>
+                            </li>
+                        </ul>
+                    </aside>
+                    <aside class="col-md">
+                        <h6 class="title">Social</h6>
+                        <ul class="list-unstyled">
+                            <li>
+                                <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">
+                                    <i class="fab fa-facebook"></i> Facebook
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">
+                                    <i class="fab fa-twitter"></i> Twitter
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">
+                                    <i class="fab fa-instagram"></i> Instagram
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/page-index-1.html#">
+                                    <i class="fab fa-youtube"></i> Youtube
+                                </a>
+                            </li>
+                        </ul>
+                    </aside>
+                </div> <!-- row.// -->
+            </section> <!-- footer-top.// -->
+
+            <section class="footer-bottom row">
+                <div class="col-md-2">
+                    <p class="text-muted"> © 2019 Company name </p>
+                </div>
+                <div class="col-md-8 text-md-center">
+                    <span class="px-2">info@pixsellz.io</span>
+                    <span class="px-2">+879-332-9375</span>
+                    <span class="px-2">Street name 123, Avanue abc</span>
+                </div>
+                <div class="col-md-2 text-md-right text-muted">
+                    <i class="fab fa-lg fa-cc-visa"></i>
+                    <i class="fab fa-lg fa-cc-paypal"></i>
+                    <i class="fab fa-lg fa-cc-mastercard"></i>
+                </div>
+            </section>
+        </div><!-- //container -->
+    </footer>
+    <!-- ========================= FOOTER END // ========================= -->
     <!--initiate accordion-->
     <script type="text/javascript">
         $(function () {

@@ -38,7 +38,7 @@
             <a href="@Url.RouteUrl("XemChiTiet",new { @id=item.MaSP,@tensp=ToUrlSlug(item.TenSP)})"
                class="img-wrap "> <img class="w-100 " src="@Url.Content("~/Content/HinhAnhSP/" + item.HinhAnh)"> </a>
             <figcaption class="info-wrap">
-                <a href="@Url.RouteUrl("XemChiTiet",new { @id=item.MaSP,@tensp=item.TenSP})"
+                <a href="@Url.RouteUrl("XemChiTiet",new { @id=item.MaSP,@tensp=ToUrlSlug(item.TenSP)})"
                    class="title">@item.TenSP</a>
 
                 <div class="rating-wrap">

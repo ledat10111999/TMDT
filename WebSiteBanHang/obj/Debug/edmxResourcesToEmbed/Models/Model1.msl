@@ -218,5 +218,35 @@
     </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="QuanLyBanHangModel.Store.sp_renamediagram" />
     <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="QuanLyBanHangModel.Store.sp_upgraddiagrams" />
+    <EntitySetMapping Name="districts">
+      <EntityTypeMapping TypeName="QuanLyBanHangModel.district">
+        <MappingFragment StoreEntitySet="district">
+          <ScalarProperty Name="C_province_id" ColumnName="_province_id" />
+          <ScalarProperty Name="C_prefix" ColumnName="_prefix" />
+          <ScalarProperty Name="C_name" ColumnName="_name" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="provinces">
+      <EntityTypeMapping TypeName="QuanLyBanHangModel.province">
+        <MappingFragment StoreEntitySet="province">
+          <ScalarProperty Name="C_code" ColumnName="_code" />
+          <ScalarProperty Name="C_name" ColumnName="_name" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="wards">
+      <EntityTypeMapping TypeName="QuanLyBanHangModel.ward">
+        <MappingFragment StoreEntitySet="ward">
+          <ScalarProperty Name="C_district_id" ColumnName="_district_id" />
+          <ScalarProperty Name="C_province_id" ColumnName="_province_id" />
+          <ScalarProperty Name="C_prefix" ColumnName="_prefix" />
+          <ScalarProperty Name="C_name" ColumnName="_name" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

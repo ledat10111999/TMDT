@@ -139,7 +139,20 @@
 
     <div class="clearfix"></div>
 
+    @section bar{
+        <style>
+        </style>
+        <div class="row">
+                <ul class="lis">
+                    <li> <a href="/">Home</a> <span>›</span></li>
+                    <li> <a href="@Url.Action("SanPham","SanPham",new { @MaLoaiSP=Model.MaLoaiSP,@MaNSX=Model.MaNSX})">@Model.LoaiSanPham.TenLoai</a> <span>›</span> </li>
+                    <li> <a href="@Url.Action("SanPham","SanPham",new { @MaLoaiSP=Model.MaLoaiSP,@MaNSX=Model.MaNSX})">@Model.NhaSanXuat.TenNSX</a> </li>
+                </ul>
+        </div>
 
+
+
+    }
 
 
 </div>
@@ -155,6 +168,9 @@
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v8.0" nonce="pfPZNyrZ"></script>
     <div class="fb-comments" data-href="http://localhost:3000/@ToUrlSlug(Model.TenSP)-@Model.MaSP" data-numposts="5" data-width="800" data-adapt-container-width="true"></div>
 </div>
+
+
+
 
 @*// check user is not rate*@
 @if (Model.StarRatings.FirstOrDefault(c => c.idSanPham == Model.MaSP && Request.UserHostAddress == c.ipAddress) == null)

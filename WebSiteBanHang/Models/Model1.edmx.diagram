@@ -37,6 +37,9 @@
         <AssociationConnector Association="QuanLyBanHangModel.FK_SanPham_NhaCungCap" ManuallyRouted="false" />
         <AssociationConnector Association="QuanLyBanHangModel.FK_SanPham_NhaSanXuat" ManuallyRouted="false" />
         <AssociationConnector Association="QuanLyBanHangModel.FK_StarRatings_SanPham" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="QuanLyBanHangModel.district" Width="1.5" PointX="10.75" PointY="5.75" />
+        <EntityTypeShape EntityType="QuanLyBanHangModel.province" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="QuanLyBanHangModel.ward" Width="1.5" PointX="0.75" PointY="11.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -16,6 +16,14 @@
         text-decoration: none;
         background-color: #fff;
         border: 1px solid #ddd;
+        
+    }
+    .tun {
+        width: 100%;
+        white-space: nowrap;
+   
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 </style>
 <div class="row">
@@ -26,13 +34,13 @@
                 <div class="col-md-4 ">
                    
                         <a href="@Url.RouteUrl("XemChiTiet",new { @id=item.MaSP,@tensp=item.TenSP})">
-                            <img class="rounded mx-auto d-block" src="@Url.Content("~/Content/HinhAnhSP/" + item.HinhAnh)" alt="">
+                            <img class="rounded mx-auto d-block w-75 h-75" src="@Url.Content("~/Content/HinhAnhSP/" + item.HinhAnh)" alt="">
                             @*<div class="pro-grid">
                                 <span class="buy-in">Mua hàng</span>
                             </div>*@
                         </a>
                   
-                    <p class="tun">@item.TenSP</p>
+                    <p class="tun ">@item.TenSP</p>
                     @*Thẻ a nút thêm sản phẩm --- chèn Action vào*@
                     <a href="@Url.Action("ThemGioHang","GioHang",new { @MaSP = item.MaSP, @strURL = Request.Url.ToString()})" class="item_add"><p class="number item_price"><i> </i>@item.DonGia.Value.ToString("#,##") VNĐ</p></a>
                     @*@Ajax.ActionLink("Thêm giỏ hàng AJAX","ThemGioHangAjax","GioHang",new { @MaSP = item.MaSP, @strURL = Request.Url.ToString() }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "divGioHang", InsertionMode = InsertionMode.Replace })*@

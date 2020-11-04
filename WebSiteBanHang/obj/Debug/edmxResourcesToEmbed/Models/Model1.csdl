@@ -521,6 +521,9 @@
       <Parameter Name="new_diagramname" Mode="In" Type="String" />
     </FunctionImport>
     <FunctionImport Name="sp_upgraddiagrams" />
+    <EntitySet Name="districts" EntityType="QuanLyBanHangModel.district" />
+    <EntitySet Name="provinces" EntityType="QuanLyBanHangModel.province" />
+    <EntitySet Name="wards" EntityType="QuanLyBanHangModel.ward" />
   </EntityContainer>
   <ComplexType Name="sp_helpdiagramdefinition_Result">
     <Property Type="Int32" Name="version" Nullable="true" />
@@ -533,4 +536,31 @@
     <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
     <Property Type="Int32" Name="OwnerID" Nullable="false" />
   </ComplexType>
+  <EntityType Name="district">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="C_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="C_prefix" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="C_province_id" Type="Int64" />
+  </EntityType>
+  <EntityType Name="province">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="C_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="C_code" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="ward">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="C_name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="C_prefix" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="C_province_id" Type="Int64" />
+    <Property Name="C_district_id" Type="Int64" />
+  </EntityType>
 </Schema>
