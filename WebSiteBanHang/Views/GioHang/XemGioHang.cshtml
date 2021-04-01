@@ -111,13 +111,14 @@ else
                             <td>
                                 <div class="mr-2 d-inline">
                                     <span>Thanh toán trực tiếp</span>
-                                    @Html.CheckBox("ThanhToanTrucTiep", true , new { id ="tt" })
+                                    @Html.CheckBox("ThanhToanTrucTiep", true, new { id = "tt" })
                                 </div>
 
 
 
                                 <span>Thanh toán quốc tế</span>
                                 @Html.CheckBox("ThanhToanPaypal", false, new { id = "qt" })
+                              
 
                             </td>
                         </tr>
@@ -145,10 +146,10 @@ else
 
 
     function check() {
-
         $("[type=checkbox]").click((e) => {
 
             $("input:checked").not(this).prop("checked", false);
+
             e.target.checked = true;
         })
 
